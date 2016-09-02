@@ -1,0 +1,4 @@
+<?php
+ /**
+ *	Tenant/client Helper  
+ */

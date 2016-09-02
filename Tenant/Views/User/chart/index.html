@@ -1,0 +1,54 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>jQuery barChart Demo Page</title>
+		<link type="text/css" rel="stylesheet" href="style.css" />
+        <link href="http://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css">
+    <script   src="https://code.jquery.com/jquery-1.12.4.js"   integrity="sha256-Qw82+bXyGq6MydymqBxNPYTaUXXq7c8v3CwiYwLLNXU="   crossorigin="anonymous"></script>
+    <script src="script.js"></script>
+	</head>
+	<body>
+    <h1 style="margin:10px auto 30px auto; text-align:center; color:#fff;">Application Status</h1>
+    <div id="chart">
+      <ul id="numbers">
+        <li><span>26</span></li>
+        <li><span>24</span></li>
+        <li><span>22</span></li>
+        <li><span>20</span></li>
+        <li><span>18</span></li>
+        <li><span>16</span></li>
+        <li><span>12</span></li>
+        <li><span>8</span></li>
+        <li><span>4</span></li>
+        <li><span>2</span></li>
+        <li><span>0</span></li>
+      </ul>
+      <ul id="bars">
+        <li><div data-applications="26" class="bar"></div><span>Enquiry</span></li>
+        <li><div data-applications="25" class="bar"></div><span>Offer Processing</span></li>
+        <li><div data-applications="30" class="bar"></div><span>Offer Received</span></li>
+        <li><div data-applications="16" class="bar"></div><span>Coe Processing</span></li>
+        <li><div data-applications="0" class="bar"></div><span>Coe Received</span></li>
+        <li><div data-applications="12" class="bar"></div><span>Course Started</span></li>
+        <li><div data-applications="2" class="bar"></div><span>Course Completed</span></li>
+        <li><div data-applications="5" class="bar"></div><span>Incomplete</span></li>
+      </ul>
+    </div>
+	</body><script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-36251023-1']);
+  _gaq.push(['_setDomainName', 'jqueryscript.net']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+</html>
