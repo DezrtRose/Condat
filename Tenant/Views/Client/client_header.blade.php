@@ -3,7 +3,7 @@
         <div class="panel-body">
             <div class="col-sm-2">
 
-                <img src="{{ ($client->image != null)? tenant()->url($client->image) : asset('assets/img/default-user.png') }}"
+                <img src="{{ ($client->filename != null)? url($client->shelf_location.'/'.$client->filename) : asset('assets/img/default-user.png') }}"
                      class="img-rounded"
                      alt="{{$client->first_name}} {{$client->middle_name}} {{$client->last_name}}"
                      height="150"/>
@@ -55,30 +55,34 @@
         </div>
     </div>
 
-    <div class="modal fade" id="url-modal" tabindex="-1" role="dialog" aria-labelledby="url-modalLabel">
-        {{-- Form for upload image direct form URL --}}
-        <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal">&times;</button>
-            <h4 class="modal-title">Save Image From URL</h4>
-        </div>
-        {!!Form::open(['route' => 'tenant.client.urlUpload', 'method'=> 'post', 'files' => 'true', 'class' => 'form-horizontal form-left'])!!}
-        <div class="modal-body">
-            <div class="form-group">
-                <label for="">URL * </label>
-                <input type="text" class="form-control" name="url" />
+    <!-- Modal -->
+    <div class="modal fade" id="url-modal" tabindex="-1" role="dialog" aria-labelledby="url-modal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Save Image From URL</h4>
+                </div>
+                {!!Form::open(['route' => ['tenant.client.urlUpload', $client->client_id], 'method'=> 'post', 'files' => 'true', 'class' => 'form-left'])!!}
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="">URL * </label>
+                        <input type="text" class="form-control" name="url" />
+                    </div>
+                    <div class="form-group">
+                        <label for="">Title * </label>
+                        <input type="text" class="form-control" name="title" />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-success"><i class="fa fa-plus-circle"></i>
+                        Save
+                    </button>
+                </div>
+                {!!Form::close()!!}
             </div>
-            <div class="form-group">
-                <label for="">Title * </label>
-                <input type="text" class="form-control" name="title" />
-            </div>
         </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-            <button type="submit" class="btn btn-success"><i class="fa fa-plus-circle"></i>
-                Save
-            </button>
-        </div>
-        {!!Form::close()!!}
     </div>
 
 </div>

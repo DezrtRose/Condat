@@ -59,6 +59,7 @@ Route::group(array('prefix' => 'tenant', 'module' => 'Tenant', 'middleware' => '
     Route::put('clients/{id}',['as' => 'tenant.client.update', 'uses' => 'ClientController@update']);
     Route::delete('clients/{id}',['as' => 'tenant.client.destroy', 'uses' => 'ClientController@destroy']);
 
+    Route::post('clients/{id}/upload',['as' => 'tenant.client.upload', 'uses' => 'ClientController@upload']);
     Route::post('clients/{id}/urlUpload',['as' => 'tenant.client.urlUpload', 'uses' => 'ClientController@urlUpload']);
 
     Route::get('client/data', 'ClientController@getData');
@@ -278,6 +279,7 @@ Route::group(array('prefix' => 'tenant', 'module' => 'Tenant', 'middleware' => '
     /* Routes for Client Email */
     Route::get('clients/{client_id}/compose', ['as' => 'tenant.client.compose', 'uses' => 'ClientController@compose']);
     Route::post('clients/{client_id}/compose', 'ClientController@sendMail');
+    Route::get('clients/{client_id}/sent', ['as' => 'tenant.client.sent', 'uses' => 'ClientController@sent']);
 
     /* Routes for Settings Module */
     Route::get('settings/company', ['as' => 'tenant.company.edit', 'uses' => 'SettingController@company']);

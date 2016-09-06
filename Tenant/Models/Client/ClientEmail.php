@@ -41,7 +41,12 @@ class ClientEmail extends Model
             'client_id' => $client_id,
             'created_at' => get_today_datetime()
         ]);
+    }
 
+    function getEmails($client_id, $status = 1)
+    {
+        $emails = ClientEmail::where('client_id', $client_id)->where('status', $status)->get();
+        return $emails;
     }
 
 }

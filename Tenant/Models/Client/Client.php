@@ -4,6 +4,7 @@ use App\Modules\Tenant\Models\Email;
 use App\Modules\Tenant\Models\Person\PersonEmail;
 use App\Modules\Tenant\Models\Person\PersonPhone;
 use App\Modules\Tenant\Models\Phone;
+use App\Modules\Tenant\Models\Photo;
 use App\Modules\Tenant\Models\Timeline\ClientTimeline;
 use App\Modules\Tenant\Models\Timeline\Timeline;
 use App\Modules\Tenant\Models\Timeline\TimelineType;
@@ -14,6 +15,7 @@ use App\Modules\Tenant\Models\Person\PersonAddress;
 use Illuminate\Database\Eloquent\Model;
 use DB;
 use Carbon;
+use File;
 
 class Client extends Model
 {
@@ -213,6 +215,7 @@ class Client extends Model
             ->leftJoin('addresses', 'addresses.address_id', '=', 'person_addresses.address_id')
             ->leftJoin('person_phones', 'person_phones.person_id', '=', 'persons.person_id')
             ->leftJoin('phones', 'phones.phone_id', '=', 'person_phones.phone_id')
+            ->leftJoin('photos', 'photos.photo_id', '=', 'persons.photo_id')
             ->leftJoin('person_emails', 'person_emails.person_id', '=', 'persons.person_id')
             ->leftJoin('emails', 'emails.email_id', '=', 'person_emails.email_id')
             ->where('clients.client_id', $client_id)
@@ -277,29 +280,24 @@ class Client extends Model
     function uploadImage($client_id, $file, array $request)
     {
         DB::beginTransaction();
-
         try {
             $client = Client::find($client_id);
-            $client->image = $file['fileName'];
-            $document = Document::create([
-                'type' => $request['type'],
-                'user_id' => current_tenant_id(),
-                'name' => $file['fileName'],
+            $person = Person::find($client->person_id);
+            $photo = Photo::create([
+                'title' => $request['title'],
+                'filename' => $file['fileName'],
                 'shelf_location' => $file['pathName'],
-                'description' => $request['description'],
+                'user_id' => current_tenant_id()
             ]);
 
-            $client_document_id = ClientDocument::create([
-                'document_id' => $document->document_id,
-                'status_id' => 1, //change later ??
-                'client_id' => $client_id
-            ]);
+            $person->photo_id = $photo->photo_id;
+            $person->save();
+
             DB::commit();
-            return $document->document_id;
-            // all good
-        } catch (\Exception $e) {
-            DB::rollback();
-            dd($e);
+            return $photo->photo_id;
+        } catch (Exception $e) {
+            File::delete(tenant()->folder('customer')->path($file['fileName']));
+            DB::rollback(); dd($e);
             return false;
         }
 
