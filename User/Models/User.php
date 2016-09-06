@@ -104,7 +104,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
             $user->surname = $request['surname'];
             $user->email = $request['email'];
             $user->title = $request['title'];
-            $user->role = $request['role'];
+            //$user->role = $request['role'];
             $user->added_by_users_id = \Auth::user()->id;
             $user->save();
 
@@ -113,8 +113,8 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
             // all good
         } catch (\Exception $e) {
             DB::rollback();
+            dd($e);
             return false;
-            //dd($e);
             // something went wrong
         }
     }
