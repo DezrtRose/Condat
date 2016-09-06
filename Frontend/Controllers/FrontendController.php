@@ -3,6 +3,7 @@
 use App\Http\Controllers\BaseController;
 use App\Http\Requests;
 use App\Modules\Agency\Models\Agency;
+use App\Modules\System\Models\Subscription;
 use Illuminate\Http\Request;
 use Flash;
 
@@ -29,12 +30,13 @@ class FrontendController extends BaseController {
 
 	/**
 	 * Show the form for creating a new agency.
-	 *
+	 * @param $subscription
 	 * @return Response
 	 */
-	public function register()
+	public function register(Subscription $subscription)
 	{
-		return view('Frontend::Agency/add');
+	    $subscriptions = $subscription->lists('name', 'subscription_id');
+		return view('Frontend::Agency/add', compact('subscriptions'));
 	}
 
 	/**
