@@ -280,6 +280,7 @@ Route::group(array('prefix' => 'tenant', 'module' => 'Tenant', 'middleware' => '
     Route::get('clients/{client_id}/compose', ['as' => 'tenant.client.compose', 'uses' => 'ClientController@compose']);
     Route::post('clients/{client_id}/compose', 'ClientController@sendMail');
     Route::get('clients/{client_id}/sent', ['as' => 'tenant.client.sent', 'uses' => 'ClientController@sent']);
+    Route::get('clients/{client_id}/read/{mail_id}', ['as' => 'tenant.client.readMail', 'uses' => 'ClientController@readMail']);
 
     /* Routes for Settings Module */
     Route::get('settings/company', ['as' => 'tenant.company.edit', 'uses' => 'SettingController@company']);

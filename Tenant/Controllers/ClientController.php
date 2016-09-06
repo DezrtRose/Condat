@@ -333,6 +333,13 @@ class ClientController extends BaseController
         return view("Tenant::Client/Email/sent", $data);
     }
 
+    function readMail($client_id, $mail_id)
+    {
+        $data['client'] = $this->client->getDetails($client_id);
+        $data['mail'] = ClientEmail::find($mail_id);
+        return view("Tenant::Client/Email/read", $data);
+    }
+
     function sendMail($client_id)
     {
         $upload_rules = ['subject' => 'required|max:255', 'body' => 'required'];
