@@ -1,6 +1,7 @@
 <?php namespace App\Modules\Agency\Models;
 
 use App\Models\Address;
+use App\Modules\System\Models\Subscription;
 use Illuminate\Database\Eloquent\Model;
 use DB;
 
@@ -31,6 +32,7 @@ class Agency extends Model
      */
     function add(array $request)
     {
+        $subscription = new Subscription();
         DB::beginTransaction();
 
         try {
@@ -51,6 +53,8 @@ class Agency extends Model
                 //'company_database_name' => 'test',
                 'guid' => \Condat::uniqueKey(10, 'agencies', 'guid')
             ]);
+
+            $subscription->renew($request, $agency->id);
 
             Company::create([
                 'name' => $request['name'],

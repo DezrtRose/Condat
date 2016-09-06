@@ -188,6 +188,54 @@
         </div>
         <!-- /.box -->
     </div>
+    <div>
+        Subscription Details
+        <div>
+            <div class="form-group @if($errors->has('subscription_type')) {{'has-error'}} @endif">
+                {!!Form::label('subscription_type', 'Subscription Type', array('class' => 'col-sm-4 control-label')) !!}
+                <div class="col-sm-8">
+                    {!!Form::select('subscription_type', $subscriptions, null, array('class' =>
+                    'form-control'))!!}
+                    @if($errors->has('subscription_type'))
+                        {!! $errors->first('subscription_type', '<label class="control-label"
+                                                              for="inputError">:message</label>')
+                        !!}
+                    @endif
+                </div>
+            </div>
+            <div class="form-group @if($errors->has('subscription_years')) {{'has-error'}} @endif">
+                {!!Form::label('subscription_years', 'Subscription Years', array('class' => 'col-sm-4 control-label')) !!}
+                <div class="col-sm-8">
+                    {!!Form::select('subscription_years', config('constants.subscription_years'), null, array('class' =>
+                    'form-control'))!!}
+                    @if($errors->has('subscription_years'))
+                        {!! $errors->first('subscription_years', '<label class="control-label"
+                                                              for="inputError">:message</label>')
+                        !!}
+                    @endif
+                </div>
+            </div>
+            <div class="form-group">
+                {!!Form::label('payment_date', 'Payment Date', array('class' => 'col-sm-4 control-label')) !!}
+                <div class="col-sm-8">
+                    <div class="input-group">
+                        <div class="input-group-addon">
+                            <i class="fa fa-calendar"></i>
+                        </div>
+                        {!!Form::text('payment_date', null, array('class' =>
+                        'form-control datemask', 'data-inputmask' => "'alias': 'dd/mm/yyyy'", 'data-mask'=> ''))!!}
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                {!!Form::label('payment_type', 'Payment Type', array('class' => 'col-sm-4 control-label')) !!}
+                <div class="col-sm-8">
+                    {!!Form::select('payment_type', config('constants.payment_type'), null, array('class' =>
+                    'form-control'))!!}
+                </div>
+            </div>
+        </div>
+    </div>
     <!--/.col (right) -->
 </div>
 

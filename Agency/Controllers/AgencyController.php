@@ -108,6 +108,7 @@ class AgencyController extends BaseController {
 	public function edit($id)
 	{
 		$data['agency'] = $this->agency->getAgencyDetails($id);
+		$data['subscriptions'] = Subscription::lists('name', 'subscription_id');
 		return view('Agency::edit', $data);
 	}
 
