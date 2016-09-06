@@ -58,12 +58,9 @@
                         <button type="button" class="btn btn-default btn-sm" data-toggle="tooltip" data-container="body"
                                 title="Delete">
                             <i class="fa fa-trash-o"></i></button>
-                        <button type="button" class="btn btn-default btn-sm" data-toggle="tooltip" data-container="body"
+                        <a href="{{ route('tenant.client.sent', $client->client_id) }}" class="btn btn-default btn-sm" data-toggle="tooltip" data-container="body"
                                 title="" data-original-title="Reply">
-                            <i class="fa fa-reply"></i></button>
-                        <button type="button" class="btn btn-default btn-sm" data-toggle="tooltip" data-container="body"
-                                title="" data-original-title="Forward">
-                            <i class="fa fa-share"></i></button>
+                            <i class="fa fa-reply"></i></a>
                     </div>
                     <!-- /.btn-group -->
                     <button type="button" class="btn btn-default btn-sm" data-toggle="tooltip" title=""
@@ -79,11 +76,9 @@
             <!-- /.box-body -->
             <div class="box-footer">
                 <div class="pull-right">
-                    <button type="button" class="btn btn-default"><i class="fa fa-reply"></i> Reply</button>
-                    <button type="button" class="btn btn-default"><i class="fa fa-share"></i> Forward</button>
+                    <button type="button" class="btn btn-default"><i class="fa fa-print"></i> Print</button>
                 </div>
                 <button type="button" class="btn btn-default"><i class="fa fa-trash-o"></i> Delete</button>
-                <button type="button" class="btn btn-default"><i class="fa fa-print"></i> Print</button>
             </div>
             <!-- /.box-footer -->
         </div>

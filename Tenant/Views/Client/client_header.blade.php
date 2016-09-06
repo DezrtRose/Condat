@@ -3,7 +3,7 @@
         <div class="panel-body">
             <div class="col-sm-2">
 
-                <img src="{{ ($client->filename != null)? url($client->shelf_location.'/'.$client->filename) : asset('assets/img/default-user.png') }}"
+                <img src="{{ ($client->filename != null)? url($client->shelf_location.$client->filename) : asset('assets/img/default-user.png') }}"
                      class="img-rounded"
                      alt="{{$client->first_name}} {{$client->middle_name}} {{$client->last_name}}"
                      height="150"/>

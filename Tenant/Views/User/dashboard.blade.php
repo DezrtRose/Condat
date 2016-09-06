@@ -34,11 +34,9 @@
 
                         <td>
                             <div class="box-tools pull-left">
-                                <a class="btn btn-primary" href="{{ route('tenant.client.show',[$value->client_id])}}" data-toggle="tooltip" data-placement="top" title="View"><i class="fa fa-eye" ></i></a>
-                                <a class="btn btn-primary" href="" data-toggle="tooltip" data-placement="top" title="Make Inactive"><i class="fa fa-remove"></i></a>
-                                
+                                <a class="btn btn-primary btn-sm" href="{{ route('tenant.client.show',[$value->client_id])}}" data-toggle="tooltip" data-placement="top" title="View"><i class="fa fa-eye" ></i></a>
+                                <a class="btn btn-primary btn-sm inactive" id="{{$value->client_id}}" data-toggle="tooltip" data-placement="top" title="Make Inactive"><i class="fa fa-remove"></i></a>
                             </div>
-                            
                         </td>
                     </tr>
                     <?php
@@ -217,6 +215,27 @@
             s.parentNode.insertBefore(ga, s);
         })();
 
+
+        /* Make clients inactive */
+        $(document).on('click', '.inactive', function (event) {
+            var clientId = $(this).attr('id');
+            var parentTr =  $(this).closest('tr');
+            $.ajax({
+                url: appUrl + "/tenant/clients/"+clientId+"/inactive",
+                success: function (result) {
+                    $('.content .box-primary').first().before(notify('success', 'Client Made Inactive Successfully!'));
+                    setTimeout(function () {
+                        $('.callout').remove()
+                    }, 2500);
+
+                    parentTr.slideUp("slow", function() { $(this).remove(); } );
+                }
+            });
+        });
+
+        function notify(type, text) {
+            return '<div class="callout callout-' + type + '"><p>' + text + '</p></div>';
+        }
     </script>
 
 
