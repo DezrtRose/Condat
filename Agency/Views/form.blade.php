@@ -191,6 +191,18 @@
     <div>
         Subscription Details
         <div>
+            <div class="form-group">
+                {!!Form::label('subscription_type', 'Subscription Type (1 month trail)', array('class' => 'col-sm-4 control-label')) !!}
+                <div class="col-sm-8">
+                    {!!Form::select('subscription_type', ['Basic'], null, array('class' =>
+                    'form-control', 'disabled' => 'disabled'))!!}
+                </div>
+            </div>
+        </div>
+    </div>
+    {{--<div>
+        Subscription Details
+        <div>
             <div class="form-group @if($errors->has('subscription_type')) {{'has-error'}} @endif">
                 {!!Form::label('subscription_type', 'Subscription Type', array('class' => 'col-sm-4 control-label')) !!}
                 <div class="col-sm-8">
@@ -235,7 +247,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div>--}}
     <!--/.col (right) -->
 </div>
 

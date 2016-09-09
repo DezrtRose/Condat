@@ -50,8 +50,8 @@ class Subscription extends Model
                 'is_current' => 1,
                 'start_date' => get_today_date(),
                 'end_date' => get_expiry_date(null, $request['subscription_years']),
-                'subscription_status_id' => 1, //paid
-                'subscription_id' => $subscription_id, //paid
+                'subscription_status_id' => 1, // 1 = trail, 2 = paid
+                'subscription_id' => $subscription_id,
             ]);
 
             $amount = $this->amount($subscription_id);
@@ -62,6 +62,43 @@ class Subscription extends Model
                 'payment_type' => $request['payment_type'],
                 'agency_subscription_id' => $agency_subs->agency_subscription_id
             ]);
+            DB::commit();
+            return true;
+        } catch (\Exception $e) {
+            DB::rollback();
+            dd($e);
+        }
+    }
+
+    function activateTrail(array $request, $agency_id)
+    {
+        DB::beginTransaction();
+        try {
+            $subscription_id = 1;
+
+            $previous_sub = AgencySubscription::where('agency_id', $agency_id)->orderBy('agency_subscription_id', 'desc')->first();
+            if(!empty($previous_sub)) {
+                $previous_sub->is_current = 0;
+                $previous_sub->save();
+            }
+
+            AgencySubscription::create([
+                'agency_id' => $agency_id,
+                'is_current' => 1,
+                'start_date' => get_today_date(),
+                'end_date' => get_expiry_date(),
+                'subscription_status_id' => 1, // 1 = trail, 2 = paid
+                'subscription_id' => $subscription_id,
+            ]);
+
+            /*$amount = $this->amount($subscription_id);
+
+            SubscriptionPayment::create([
+                'amount' => $amount,
+                'payment_date' => '',
+                'payment_type' => '',
+                'agency_subscription_id' => $agency_subs->agency_subscription_id
+            ]);*/
             DB::commit();
             return true;
         } catch (\Exception $e) {
