@@ -136,7 +136,12 @@ class AccountController extends BaseController
                     <li><a href="http://localhost/condat/tenant/contact/2">Delete</a></li>
                   </ul>
                 </div>')
-            ->addColumn('invoice_id', 'Uninvoiced <button class="btn btn-success btn-xs"><i class="glyphicon glyphicon-plus-sign"></i> Assign to Invoice</button>')
+            ->addColumn('invoice_id', function ($data) {
+                if (empty($data->invoice_id) || $data->invoice_id == 0)
+                    return 'Uninvoiced <a class="btn btn-success btn-xs" data-toggle="modal" data-target="#condat-modal" data-url="' . url('tenant/account/payment/' . $data->client_payment_id . '/' . $data->client_id . '/assign') . '"><i class="glyphicon glyphicon-plus-sign"></i> Assign to Invoice</a>';
+                else
+                    return format_id($data->invoice_id, 'I');
+            })
             ->editColumn('date_paid', function ($data) {
                 return format_date($data->date_paid);
             })
@@ -144,6 +149,16 @@ class AccountController extends BaseController
                 return format_id($data->client_payment_id, 'P');
             });
         return $datatable->make(true);
+    }
+
+    /**
+     * Assign payment to invoice
+     */
+    function assignInvoice($payment_id, $client_id)
+    {
+        $data['invoice_array'] = $this->invoice->getListByClient($client_id);
+        $data['payment_id'] = $payment_id;
+        return view("Tenant::Client/Payment/assign", $data);
     }
 
     /**
@@ -168,8 +183,8 @@ class AccountController extends BaseController
                     <span class="sr-only">Toggle Dropdown</span>
                   </button>
                   <ul role="menu" class="dropdown-menu">
-                    <li><a href="http://localhost/condat/tenant/contact/2">Add payment</a></li>
-                    <li><a href="http://localhost/condat/tenant/contact/2">View</a></li>
+                  <li><a href="' . route("tenant.invoice.payments", [$data->invoice_id, 2]) . '">View Payments</a></li>
+                    <li><a href="' . route('tenant.student.invoice', $data->student_invoice_id) . '">View Invoice</a></li>
                     <li><a href="' . route("tenant.invoice.edit", $data->student_invoice_id) . '">Edit</a></li>
                     <li><a href="http://localhost/condat/tenant/contact/2">Delete</a></li>
                   </ul>
@@ -210,19 +225,21 @@ class AccountController extends BaseController
             ->orderBy('invoices.created_at', 'desc');
 
         $datatable = \Datatables::of($invoices)
-            ->addColumn('action', '<div class="btn-group">
+            ->addColumn('action', function ($data) {
+                return '<div class="btn-group">
                   <button class="btn btn-primary" type="button">Action</button>
                   <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle" type="button">
                     <span class="caret"></span>
                     <span class="sr-only">Toggle Dropdown</span>
                   </button>
                   <ul role="menu" class="dropdown-menu">
-                    <li><a href="http://localhost/condat/tenant/contact/2">Add payment</a></li>
-                    <li><a href="http://localhost/condat/tenant/contact/2">View</a></li>
-                    <li><a href="http://localhost/condat/tenant/contact/2">Edit</a></li>
+                    <li><a href="' . route("tenant.invoice.payments", [$data->invoice_id, 2]) . '">View Payments</a></li>
+                    <li><a href="' . route('tenant.student.invoice', $data->student_invoice_id) . '">View Invoice</a></li>
+                    <li><a href="' . route("tenant.student.editInvoice", $data->student_invoice_id) . '">Edit</a></li>
                     <li><a href="http://localhost/condat/tenant/contact/2">Delete</a></li>
                   </ul>
-                </div>')
+                </div>';
+            })
             ->addColumn('status', function ($data) {
                 $outstanding = $this->invoice->getOutstandingAmount($data->invoice_id);
                 return ($outstanding != 0) ? 'Outstanding' : 'Paid';

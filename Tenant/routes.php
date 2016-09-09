@@ -71,6 +71,8 @@ Route::group(array('prefix' => 'tenant', 'module' => 'Tenant', 'middleware' => '
     Route::get('courses/{institute_id}',['as' => 'tenant.institute.course', 'uses' => 'CourseController@getCourses']);
     Route::get('intakes/{institute_id}',['as' => 'tenant.institute.intake', 'uses' => 'IntakeController@getIntakes']);
 
+    Route::get('account/payment/{payment_id}/{application_id}/assign', ['as' => 'tenant.account.payment.assign', 'uses' => 'AccountController@assignInvoice']);
+
     /* Create payments for a client */
     Route::get('payment/{client_id}/add', ['as' => 'tenant.payment.create', 'uses' => 'AccountController@createClientPayment']);
     Route::post('payment/{client_id}/store', ['as' => 'tenant.client.payment', 'uses' => 'AccountController@storeClientPayment']);
