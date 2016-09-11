@@ -7,16 +7,17 @@
 @stop
 @section('content')
 
-<div class="container">         
-    <div class="row">
-    @include('Tenant::Client/client_header') 
-    </div>
-    <div class="col-xs-12">
+    <div class="container">
+        <div class="row">
+            @include('Tenant::Client/client_header')
+        </div>
         @include('flash::message')
         <div class="box box-primary">
             <div class="box-header with-border">
                 <h3 class="box-title">Recent Invoices</h3>
-                <a href='{{url("tenant/invoice/".$client->client_id."/add")}}' class="btn btn-success btn-flat pull-right"><i class="glyphicon glyphicon-plus-sign"></i> Create Invoice</a>
+                <a href='{{url("tenant/invoice/".$client->client_id."/add")}}'
+                   class="btn btn-success btn-flat pull-right"><i class="glyphicon glyphicon-plus-sign"></i> Create
+                    Invoice</a>
             </div>
             <div class="box-body">
                 <table id="invoices" class="table table-bordered table-striped dataTable">
@@ -39,7 +40,9 @@
         <div class="box box-primary">
             <div class="box-header with-border">
                 <h3 class="box-title">Recent Payments</h3>
-                <a href="{{url("tenant/payment/".$client->client_id."/add")}}" class="btn btn-success btn-flat pull-right"><i class="glyphicon glyphicon-plus-sign"></i> Add Payments</a>
+                <a href="{{url("tenant/payment/".$client->client_id."/add")}}"
+                   class="btn btn-success btn-flat pull-right"><i class="glyphicon glyphicon-plus-sign"></i> Add
+                    Payments</a>
             </div>
             <div class="box-body">
                 <table id="payments" class="table table-bordered table-striped dataTable">
@@ -83,17 +86,13 @@
                 </table>
             </div>
         </div>
-
-         
     </div>
-</div>
 
     <script type="text/javascript">
         $(document).ready(function () {
             oTable = $('#payments').DataTable({
                 "processing": true,
                 "serverSide": true,
-
                 "paging": true,
                 "lengthChange": false,
                 "searching": false,
@@ -101,7 +100,7 @@
                 "info": true,
                 "autoWidth": true,
 
-                "ajax": appUrl + "/tenant/payments/client/"+ <?php echo $client->client_id ?> +"/data",
+                "ajax": appUrl + "/tenant/payments/client/" + <?php echo $client->client_id ?> +"/data",
                 "columns": [
                     {data: 'client_payment_id', name: 'client_payment_id'},
                     {data: 'date_paid', name: 'date_paid'},
@@ -117,7 +116,6 @@
             iTable = $('#invoices').DataTable({
                 "processing": true,
                 "serverSide": true,
-
                 "paging": true,
                 "lengthChange": false,
                 "searching": false,
@@ -125,7 +123,7 @@
                 "info": true,
                 "autoWidth": true,
 
-                "ajax": appUrl + "/tenant/invoices/client/"+ <?php echo $client->client_id ?> +"/data",
+                "ajax": appUrl + "/tenant/invoices/client/" + <?php echo $client->client_id ?> +"/data",
                 "columns": [
                     {data: 'invoice_id', name: 'invoice_id'},
                     {data: 'invoice_date', name: 'invoice_date'},
@@ -141,7 +139,6 @@
             fTable = $('#future').DataTable({
                 "processing": true,
                 "serverSide": true,
-
                 "paging": true,
                 "lengthChange": false,
                 "searching": false,
@@ -149,7 +146,7 @@
                 "info": true,
                 "autoWidth": true,
 
-                "ajax": appUrl + "/tenant/invoices/future/"+ <?php echo $client->client_id ?> +"/data",
+                "ajax": appUrl + "/tenant/invoices/future/" + <?php echo $client->client_id ?> +"/data",
                 "columns": [
                     {data: 'invoice_id', name: 'invoice_id'},
                     {data: 'invoice_date', name: 'invoice_date'},
@@ -163,6 +160,5 @@
             });
         });
     </script>
-
-    
+    {!! Condat::registerModal() !!}
 @stop

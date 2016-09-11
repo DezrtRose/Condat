@@ -106,6 +106,22 @@ class StudentInvoice extends Model
         return $invoice_list;
     }
 
+    function getListByClient($client_id)
+    {
+        $invoices = StudentInvoice::join('invoices', 'student_invoices.invoice_id', '=', 'invoices.invoice_id')
+            ->where('student_invoices.client_id', $client_id)
+            ->select('invoices.invoice_id', 'invoices.amount')
+            ->orderBy('created_at', 'desc')
+            ->get();
+        //->lists('invoice_details', 'invoices.invoice_id');
+        $invoice_list = array();
+        foreach ($invoices as $key => $invoice) {
+            $formatted_id = format_id($invoice->invoice_id, 'SI');
+            $invoice_list[$invoice->invoice_id] = $formatted_id . ', $' . $invoice->amount;
+        }
+        return $invoice_list;
+    }
+
     function getClientId($invoice_id)
     {
         $client = StudentInvoice::join('course_application', 'student_invoices.application_id', '=', 'course_application.course_application_id')

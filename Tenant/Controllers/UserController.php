@@ -29,6 +29,8 @@ class UserController extends BaseController {
 	// user dashboard
 	public function dashboard(){
 		$data['active_clients']=$this->user->activeClient();
+
+		$data['app_stat'] = $this->applicationStatus->getCount();
 		for($record=1;$record<=7;$record++){
 			$data['status'][$record]=$this->applicationStatus->statusRecord($record);
 		}	
