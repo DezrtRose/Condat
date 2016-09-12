@@ -4,6 +4,7 @@ use App\Models\Address;
 use App\Modules\System\Models\Subscription;
 use Illuminate\Database\Eloquent\Model;
 use DB;
+use Mail;
 
 class Agency extends Model
 {
@@ -58,7 +59,7 @@ class Agency extends Model
 
             Company::create([
                 'name' => $request['name'],
-                //'phone_id' => $request['phone_id'],
+                'phone_id' => $request['phone'],
                 'abn' => $request['abn'],
                 'acn' => $request['acn'],
                 'website' => $request['website'],
@@ -70,8 +71,34 @@ class Agency extends Model
 
             //create independent database
             $tenant = app('App\Condat\Libraries\Tenant');
+            $unique_auth_code = $request['unique_auth_code'] = md5(uniqid($agency->id, true));
             //$tenant->authenticateTenant();
             $tenant->newTenant($request);
+
+            // sending email to agency
+            $agency_message = <<<EOD
+<strong>Respected {$request['name']}, </srtong>
+<p>Your agency account has been created successfully on Condat Solutions. Please <a href="">click here</a> or follow the link below to complete the registration process.</p>
+<a href="">$unique_auth_code</a>
+EOD;
+
+            $param = ['content'    => $agency_message,
+                'subject'    => 'Agency Created Successfully',
+                'heading'    => 'Condat Solutions',
+                'subheading' => 'All your business in one space',
+            ];
+            $data = ['to_email'   => 'satshanker.01@gmail.com',
+                'to_name'    => $request['name'],
+                'subject'    => 'Agency Created Successfully',
+                'from_email' => 'krita@condat.com', //change this later
+                'from_name'  => 'Condat Solutions', //change this later
+            ];
+
+            Mail::send('template.master', $param, function ($message) use ($data) {
+                $message->to($data['to_email'], $data['to_name'])
+                    ->subject($data['subject'])
+                    ->from($data['from_email'], $data['from_name']);
+            });
 
             DB::commit();
             // all good
