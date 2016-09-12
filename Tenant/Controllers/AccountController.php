@@ -238,7 +238,7 @@ class AccountController extends BaseController
                     <li><a href="' . route("tenant.student.editInvoice", $data->student_invoice_id) . '">Edit</a></li>
                     <li><a href="http://localhost/condat/tenant/contact/2">Delete</a></li>
                   </ul>
-                </div>'; 
+                </div>';
             })
             ->addColumn('status', function ($data) {
                 $outstanding = $this->invoice->getOutstandingAmount($data->invoice_id);

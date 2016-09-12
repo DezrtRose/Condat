@@ -32,8 +32,7 @@ class Invoice extends Model
     function getInvoiceDetails()
     {
         
-      //  SELECT invoices.*,sum(client_payments.amount) from invoices LEFT JOIN payment_invoice_breakdowns on payment_invoice_breakdowns.invoice_id=invoices.invoice_id left JOIN client_payments on client_payments.client_payment_id=payment_invoice_breakdowns.payment_id group by payment_invoice_breakdowns.invoice_id 
-        
+         //  SELECT invoices.*,sum(client_payments.amount) from invoices LEFT JOIN payment_invoice_breakdowns on payment_invoice_breakdowns.invoice_id=invoices.invoice_id left JOIN client_payments on client_payments.client_payment_id=payment_invoice_breakdowns.payment_id group by payment_invoice_breakdowns.invoice_id
          $invoice_reports = Invoice::leftjoin('payment_invoice_breakdowns', 'payment_invoice_breakdowns.invoice_id', '=', 'invoices.invoice_id')
             ->leftjoin('client_payments', 'client_payments.client_payment_id', '=', 'payment_invoice_breakdowns.payment_id')
             ->leftjoin('student_invoices', 'student_invoices.invoice_id', '=', 'invoices.invoice_id')
@@ -47,10 +46,7 @@ class Invoice extends Model
             ->groupBy('invoices.invoice_id')
             ->orderBy('invoices.invoice_date', 'desc')
             ->get();
-            
-
-
-        return $invoice_reports;
+         return $invoice_reports;
     }
 
     

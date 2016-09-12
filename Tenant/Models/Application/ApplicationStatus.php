@@ -192,7 +192,7 @@ class ApplicationStatus extends Model
     {
         $client = new Client();
         $client_id = CourseApplication::find($application_id)->client_id;
-        $status1 = Status::find($status_id-1)->decription;
+        $status1 = Status::find($status_id - 1)->decription;
         $status2 = Status::find($status_id)->decription;
 
         $client->addLog($client_id, 7, ['{{NAME}}' => get_tenant_name(), '{{STATUS1}}' => $status1, '{{STATUS2}}' => $status2, '{{VIEW_LINK}}' => route('tenant.application.show', $application_id)], $application_id);
@@ -348,5 +348,19 @@ class ApplicationStatus extends Model
         }
 
         return $link;
+    }
+
+    function getStats()
+    {
+        $status = Status::leftJoin('application_status', function ($join) {
+            $join->on('application_status.status_id', '=', 'status.status_id');
+            $join->where('application_status.active', '=', 1);
+            })
+            ->select(DB::raw('count(application_status.status_id) as total'), 'status.name')
+            ->groupBy('status.name')
+            ->orderBy('status.status_id', 'asc')
+            ->get();
+        return $status;
+
     }
 }
