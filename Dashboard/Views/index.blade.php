@@ -20,9 +20,10 @@
                 <tr>
                     <th>Agency ID</th>
                     <th>Company Name</th>
-                    <th>Email</th>
-                    <th>Database Name</th>
-                    <th>Created At</th>
+                    <th>Phone</th>
+                    <th>Subscription Type</th>
+                    <th>Subscription Status</th>
+                    <th>Expiry Date</th>
                     <th>Actions</th>
                 </tr>
                 </thead>
@@ -40,9 +41,10 @@
                 <tr>
                     <th>Agency ID</th>
                     <th>Company Name</th>
-                    <th>Email</th>
-                    <th>Database Name</th>
-                    <th>Created At</th>
+                    <th>Phone</th>
+                    <th>Subscription Type</th>
+                    <th>Subscription Status</th>
+                    <th>Expiry Date</th>
                     <th>Actions</th>
                 </tr>
                 </thead>
@@ -60,9 +62,10 @@
             "columns": [
                 {data: 'agency_id', name: 'agency_id'},
                 {data: 'name', name: 'name'},
-                {data: 'email_id', name: 'email_id'},
-                {data: 'company_database_name', name: 'company_database_name'},
-                {data: 'created_at', name: 'created_at'},
+                {data: 'phone_id', name: 'phone_id'},
+                {data: 'subscription_id', name: 'subscription_id'},
+                {data: 'subscription_status_id', name: 'subscription_status_id'},
+                {data: 'end_date', name: 'end_date'},
                 {data: 'action', name: 'action', orderable: false, searchable: false}
             ]
         });
@@ -74,9 +77,10 @@
             "columns": [
                 {data: 'agency_id', name: 'agency_id'},
                 {data: 'name', name: 'name'},
-                {data: 'email_id', name: 'email_id'},
-                {data: 'company_database_name', name: 'company_database_name'},
-                {data: 'created_at', name: 'created_at'},
+                {data: 'phone_id', name: 'phone_id'},
+                {data: 'subscription_id', name: 'subscription_id'},
+                {data: 'subscription_status_id', name: 'subscription_status_id'},
+                {data: 'end_date', name: 'end_date'},
                 {data: 'action', name: 'action', orderable: false, searchable: false}
             ]
         });

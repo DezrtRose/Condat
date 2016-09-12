@@ -54,7 +54,7 @@ class Agency extends Model
                 'guid' => \Condat::uniqueKey(10, 'agencies', 'guid')
             ]);
 
-            $subscription->renew($request, $agency->id);
+            $subscription->activateTrail($request, $agency->id);
 
             Company::create([
                 'name' => $request['name'],
