@@ -40,16 +40,16 @@ class Agency extends Model
 
             /* Agency Address Details */
             $address = Address::create([
-                'line1' => $request['line1'],
-                'line2' => $request['line2'],
-                'suburb' => $request['suburb'],
-                'state' => $request['state'],
-                'postcode' => $request['postcode'],
-                'country_id' => $request['country']
+                'line1' => isset($request['line1']) ? $request['line1'] : '',
+                'line2' => isset($request['line2']) ? $request['line2'] : '',
+                'suburb' => isset($request['suburb']) ? $request['suburb'] : '',
+                'state' => isset($request['state']) ? $request['state'] : '',
+                'postcode' => isset($request['postcode']) ? $request['postcode'] : '',
+                'country_id' => isset($request['country']) ? $request['country'] : ''
             ]);
 
             $agency = Agency::create([
-                'description' => $request['description'],
+                'description' => isset($request['description']) ? $request['description'] : '',
                 'company_database_name' => $request['company_database_name'],
                 //'company_database_name' => 'test',
                 'guid' => \Condat::uniqueKey(10, 'agencies', 'guid')
@@ -61,9 +61,9 @@ class Agency extends Model
                 'name' => $request['name'],
                 'phone_id' => $request['phone'],
                 'abn' => $request['abn'],
-                'acn' => $request['acn'],
-                'website' => $request['website'],
-                'invoice_to_name' => $request['invoice_to_name'],
+                'acn' => isset($request['acn']) ? $request['acn'] : '',
+                'website' => isset($request['website']) ? $request['website'] : '',
+                'invoice_to_name' => isset($request['invoice_to_name']) ? $request['invoice_to_name'] : '',
                 'email_id' => $request['email_id'],
                 'agencies_agent_id' => $agency->id,
                 'addresses_address_id' => $address->id
