@@ -17,7 +17,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      * @var string
      */
     protected $table = 'users';
-    /* Change the authentication guard to tenants */
+
     protected $guard = "users";
 
     /**

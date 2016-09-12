@@ -30,12 +30,12 @@ class UserController extends BaseController {
 	public function dashboard(){
 		$data['active_clients']=$this->user->activeClient();
 
-		$data['app_stat'] = $this->applicationStatus->getCount();
+		$data['app_stat'] = $this->applicationStatus->getStats(); //dd($data['app_stat']->toArray());
 		for($record=1;$record<=7;$record++){
 			$data['status'][$record]=$this->applicationStatus->statusRecord($record);
 		}	
 
-		return view("Tenant::User/dashboard",$data);
+		return view("Tenant::User/dashboard", $data);
 	}
 
 	/**

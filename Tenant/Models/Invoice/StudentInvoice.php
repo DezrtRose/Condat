@@ -49,7 +49,7 @@ class StudentInvoice extends Model
 
             $student_invoice = StudentInvoice::create([
                 'invoice_id' => $invoice->invoice_id,
-                'application_id' => ($request['application_id'] != 0)? $request['application_id'] : null,
+                'application_id' => ($request['application_id'] != 0) ? $request['application_id'] : null,
                 'client_id' => $client_id
             ]);
 
@@ -120,6 +120,25 @@ class StudentInvoice extends Model
             $invoice_list[$invoice->invoice_id] = $formatted_id . ', $' . $invoice->amount;
         }
         return $invoice_list;
+    }
+
+    function getAll()
+    {
+        $invoices = StudentInvoice::join('invoices', 'student_invoices.invoice_id', '=', 'invoices.invoice_id')
+            ->leftjoin('payment_invoice_breakdowns', 'payment_invoice_breakdowns.invoice_id', '=', 'invoices.invoice_id')
+            ->leftjoin('client_payments', 'client_payments.client_payment_id', '=', 'payment_invoice_breakdowns.payment_id')
+            ->leftjoin('clients', 'clients.client_id', '=', 'student_invoices.client_id')
+            ->leftjoin('persons', 'persons.person_id', '=', 'clients.person_id')
+            ->leftjoin('person_emails', 'persons.person_id', '=', 'person_emails.person_id')
+            ->leftjoin('emails', 'emails.email_id', '=', 'person_emails.email_id')
+            ->leftjoin('person_phones', 'persons.person_id', '=', 'person_phones.person_id')
+            ->leftjoin('phones', 'person_phones.phone_id', '=', 'phones.phone_id')
+            ->select([DB::raw('CONCAT(persons.first_name, " ", persons.last_name) AS fullname'), 'email', 'phones.number', 'invoices.invoice_amount', 'student_invoices.student_invoice_id', 'invoices.final_total', 'invoices.invoice_id', 'invoices.total_gst', 'invoices.invoice_date', DB::raw('SUM(client_payments.amount) AS total_paid')])
+            ->orderBy('invoices.created_at', 'desc')
+            ->where('invoices.invoice_date', '<=', get_today_datetime())
+            ->groupBy('invoices.invoice_id')
+            ->get(); //dd($invoices->toArray());
+        return $invoices;
     }
 
     function getClientId($invoice_id)
