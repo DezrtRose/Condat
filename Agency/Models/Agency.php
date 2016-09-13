@@ -15,6 +15,7 @@ class Agency extends Model
      * @var string
      */
     protected $table = 'agencies';
+    protected $primaryKey = 'agency_id';
 
     /**
      * The attributes that are mass assignable.
@@ -145,13 +146,13 @@ EOD;
 
             $company = Company::where('agencies_agent_id', $agency_id)->first();
             $company->name = $request['name'];
-            //$company->phone_id = $request['phone_id'];
+            $company->phone_id = $request['phone'];
             $company->abn = $request['abn'];
             $company->acn = $request['acn'];
             $company->website = $request['website'];
             $company->invoice_to_name = $request['invoice_to_name'];
             $company->email_id = $request['email_id'];
-            $company->agencies_agent_id = $agency->id;
+            $company->agencies_agent_id = $agency->agency_id;
             $company->save();
 
             $address = Address::find($company->addresses_address_id);
@@ -161,6 +162,7 @@ EOD;
             $address->state = $request['state'];
             $address->postcode = $request['postcode'];
             $address->country_id = $request['country'];
+            $address->save();
 
             DB::commit();
             // all good

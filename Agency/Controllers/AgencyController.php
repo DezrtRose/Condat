@@ -20,7 +20,7 @@ class AgencyController extends BaseController {
 		'name' => 'required|min:2|max:145',
 		'abn' => 'required|min:2|max:145',
 		'phone' => 'required|min:2|max:145',
-		'g-recaptcha-response' => 'required|recaptcha',
+        //'g-recaptcha-response' => 'required|recaptcha',
 	];
 
 	function __construct(Agency $agency, Subscription $subscription, Request $request)
@@ -75,7 +75,7 @@ class AgencyController extends BaseController {
 	public function store()
 	{
 		/* Additional validations for creating user */
-		$this->rules['email_id'] = 'required|email|min:5|max:145|unique:companies';
+		$this->rules['email_id'] = 'required|email|min:5|max:145|unique:companies,email_id';
 
 		$this->validate($this->request, $this->rules);
 		// if validates
@@ -120,7 +120,16 @@ class AgencyController extends BaseController {
 	 */
 	public function update($id)
 	{
-		//
+        /* Additional validations for creating user */
+        $this->rules['email_id'] = 'required|email|min:5|max:145|unique:companies,email_id,' . $id . ',agencies_agent_id';
+
+        $this->validate($this->request, $this->rules);
+        // if validates
+        $request = $this->request->all();
+        $updated = $this->agency->edit($request, $id);
+        if($updated)
+            Flash::success('Agency has been updated successfully.');
+        return redirect()->route('agency.index');
 	}
 
 	/**
