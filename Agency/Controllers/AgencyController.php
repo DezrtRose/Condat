@@ -20,7 +20,7 @@ class AgencyController extends BaseController {
 		'name' => 'required|min:2|max:145',
 		'abn' => 'required|min:2|max:145',
 		'phone' => 'required|min:2|max:145',
-		//'recaptcha_response_field' => 'required|recaptcha',
+		'g-recaptcha-response' => 'required|recaptcha',
 	];
 
 	function __construct(Agency $agency, Subscription $subscription, Request $request)

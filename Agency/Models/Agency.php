@@ -87,7 +87,7 @@ EOD;
                 'heading'    => 'Condat Solutions',
                 'subheading' => 'All your business in one space',
             ];
-            $data = ['to_email'   => 'satshanker.01@gmail.com',
+            $data = ['to_email'   => $request['email_id'],
                 'to_name'    => $request['name'],
                 'subject'    => 'Agency Created Successfully',
                 'from_email' => 'krita@condat.com', //change this later
