@@ -13,7 +13,7 @@
             <div class="box-header with-border">
                 <h3 class="box-title">Agency Details</h3>
             </div>
-            {!!Form::model($agency, array('route' => 'agency.store', 'class' => 'form-horizontal form-left'))!!}
+            {!!Form::model($agency, array('route' => ['agency.update', $agency->agency_id], 'class' => 'form-horizontal form-left', 'method' => 'PUT'))!!}
             <div class="box-body">
                 @include('Agency::form')
             </div>

@@ -52,7 +52,7 @@ class FrontendController extends BaseController {
 		'abn' => 'required|min:2|max:145',
 		'phone' => 'required|min:2|max:145',
 		'email_id' => 'required|email|min:5|max:145|unique:companies',
-		//'recaptcha_response_field' => 'required|recaptcha',
+		'g-recaptcha-response' => 'required|recaptcha',
 		];
 
 		$this->validate($this->request, $rules);

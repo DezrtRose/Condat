@@ -54,6 +54,7 @@
                 </div>
             </div>
 
+            @if(Request::segment(1) != 'register' && Request::segment(2) != 'agency')
             <div class="form-group @if($errors->has('acn')) {{'has-error'}} @endif">
                 {!!Form::label('acn', 'ACN', array('class' => 'col-sm-4 control-label')) !!}
                 <div class="col-sm-8">
@@ -87,6 +88,7 @@
                     @endif
                 </div>
             </div>
+
             <div class="form-group @if($errors->has('description')) {{'has-error'}} @endif">
                 {!!Form::label('description', 'Description', array('class' => 'col-sm-4 control-label')) !!}
                 <div class="col-sm-8">
@@ -97,13 +99,14 @@
                     @endif
                 </div>
             </div>
+            @endif
 
-            <div class="form-group @if($errors->has('recaptcha')) {{'has-error'}} @endif">
-                {!!Form::label('recaptcha', 'Recaptcha *', array('class' => 'col-sm-4 control-label')) !!}
+            <div class="form-group @if($errors->has('g-recaptcha-response')) {{'has-error'}} @endif">
+                {!!Form::label('g-recaptcha-response', 'Recaptcha *', array('class' => 'col-sm-4 control-label')) !!}
                 <div class="col-sm-8">
                     {!! Recaptcha::render() !!}
-                    @if($errors->has('email'))
-                        {!! $errors->first('recaptcha', '<label class="control-label"
+                    @if($errors->has('g-recaptcha-response'))
+                        {!! $errors->first('g-recaptcha-response', '<label class="control-label"
                                                                 for="inputError">:message</label>') !!}
                     @endif
                 </div>
@@ -113,6 +116,7 @@
 </div>
 <div class="col-md-6">
     {{--Adresses--}}
+    @if(Request::segment(1) != 'register' && Request::segment(2) != 'agency')
     <div class="">
         Address Details
         <!-- /.box-header -->
@@ -188,6 +192,7 @@
         </div>
         <!-- /.box -->
     </div>
+    @endif
     <div>
         Subscription Details
         <div>
