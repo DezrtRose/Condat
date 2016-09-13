@@ -295,7 +295,6 @@ Route::group(array('prefix' => 'tenant', 'module' => 'Tenant', 'middleware' => '
     /* Routes for Reports Module */
     Route::get('reports/collegeInvoice', 'ReportController@CollegeInvoiceReport');
 
-     /* Routes for applications module made by Anish */
     Route::get('applications/enquiry',['as' => 'applications.enquiry.index', 'uses' => 'ApplicationStatusController@index']);
     Route::get('applications/offer_letter_processing',['as' => 'applications.offer_letter_processing.index', 'uses' => 'ApplicationStatusController@offerLetterProcessing']);
     Route::get('applications/offer_letter_issued',['as' => 'applications.offer_letter_issued.index', 'uses' => 'ApplicationStatusController@offerLetterIssued']);
@@ -304,7 +303,9 @@ Route::group(array('prefix' => 'tenant', 'module' => 'Tenant', 'middleware' => '
     Route::get('applications/enrolled',['as' => 'applications.enrolled.index', 'uses' => 'ApplicationStatusController@enrolled']);
     Route::get('applications/completed',['as' => 'applications.completed.index', 'uses' => 'ApplicationStatusController@completed']);
     Route::get('applications/cancelled',['as' => 'applications.cancelled.index', 'uses' => 'ApplicationStatusController@cancelled']);
-    Route::get('applications/advanced_search',['as' => 'applications.advanced_search.index', 'uses' => 'ApplicationStatusController@advancedSearch']);
+    Route::get('applications/search',['as' => 'applications.search.index', 'uses' => 'ApplicationStatusController@advancedSearch']);
+    Route::post('application/search',['as' => 'application.search', 'uses' => 'ApplicationStatusController@advancedSearch']);
+
     /* Routes for actions in applications module */
     Route::get('applications/{course_application_id}/apply_offer',['as' => 'applications.apply.offer', 'uses' => 'ApplicationStatusController@apply_offer']);
     Route::post('applications/{course_application_id}/update',['as' => 'applications.apply.update', 'uses' => 'ApplicationStatusController@update']);

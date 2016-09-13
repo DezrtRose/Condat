@@ -383,6 +383,7 @@ class ClientController extends BaseController
         $url = $this->request->get('url');
         $title = $this->request->get('title');
 
+        //$extension =
         $extension = pathinfo($url, PATHINFO_EXTENSION);
         $filename = str_random(4).'-'.str_slug($title).'.'. $extension;
         //get file content from url

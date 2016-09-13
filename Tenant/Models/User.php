@@ -329,24 +329,34 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
             ->leftJoin('addresses', 'addresses.address_id', '=', 'person_addresses.address_id')
             ->leftJoin('person_phones', 'person_phones.person_id', '=', 'persons.person_id')
             ->leftJoin('phones', 'phones.phone_id', '=', 'person_phones.phone_id')
-            ->where('users.user_id', $user_id) //and user for email?
+            ->where('users.user_id', $user_id)//and user for email?
             ->first();
         return $user;
     }
 
-    public function activeClient(){
-        $activeClient=DB::table('active_clients')
-                ->leftJoin('clients','active_clients.client_id','=','clients.client_id')
-                ->leftJoin('persons', 'persons.person_id', '=', 'clients.person_id')
-                ->leftJoin('person_addresses', 'person_addresses.person_id', '=', 'persons.person_id')
-                ->leftJoin('addresses', 'addresses.address_id', '=', 'person_addresses.address_id')
-                ->leftJoin('person_phones', 'person_phones.person_id', '=', 'persons.person_id')
-                ->leftJoin('phones', 'phones.phone_id', '=', 'person_phones.phone_id')
-                ->leftJoin('person_emails', 'person_emails.person_id', '=', 'persons.person_id')
-                ->leftJoin('emails', 'emails.email_id', '=', 'person_emails.email_id')
-                //->leftJoin('users', 'users.user_id', '=', 'clients.user_id')
-                ->where('active_clients.user_id',current_tenant_id())
-                ->get();
+    public function activeClient()
+    {
+        $activeClient = DB::table('active_clients')
+            ->leftJoin('clients', 'active_clients.client_id', '=', 'clients.client_id')
+            ->leftJoin('persons', 'persons.person_id', '=', 'clients.person_id')
+            ->leftJoin('person_addresses', 'person_addresses.person_id', '=', 'persons.person_id')
+            ->leftJoin('addresses', 'addresses.address_id', '=', 'person_addresses.address_id')
+            ->leftJoin('person_phones', 'person_phones.person_id', '=', 'persons.person_id')
+            ->leftJoin('phones', 'phones.phone_id', '=', 'person_phones.phone_id')
+            ->leftJoin('person_emails', 'person_emails.person_id', '=', 'persons.person_id')
+            ->leftJoin('emails', 'emails.email_id', '=', 'person_emails.email_id')
+            //->leftJoin('users', 'users.user_id', '=', 'clients.user_id')
+            ->where('active_clients.user_id', current_tenant_id())
+            ->get();
         return $activeClient;
+    }
+
+    function getList()
+    {
+        $users = User::join('persons', 'persons.person_id', '=', 'users.person_id')
+            ->select('users.user_id', DB::raw('CONCAT(persons.first_name, " ", persons.last_name) AS full_name'))
+            ->orderBy('full_name')
+            ->lists('full_name', 'user_id');
+        return $users;
     }
 }

@@ -3,19 +3,21 @@
 namespace App\Modules\Tenant\Controllers;
 
 use App\Modules\Tenant\Models\Application\ApplicationStatusDocument;
+use App\Modules\Tenant\Models\Application\Status;
 use App\Modules\Tenant\Models\Client\Client;
+use App\Modules\Tenant\Models\Institute\Institute;
 use App\Modules\Tenant\Models\Intake\Intake;
+use App\Modules\Tenant\Models\User;
 use Illuminate\Http\Request;
 use App\Modules\Tenant\Models\Application\CourseApplication;
 use App\Modules\Tenant\Models\Application\ApplicationStatus;
 use App\Modules\Tenant\Models\Notes;
-use App\Modules\Tenant\Models\Document;
 use Session;
 use Flash;
 
 class ApplicationStatusController extends BaseController
 {
-    function __construct(CourseApplication $application, Request $request, Notes $note, ApplicationStatus $application_status, ApplicationStatusDocument $document, Intake $intake, Client $client)
+    function __construct(CourseApplication $application, Request $request, Notes $note, ApplicationStatus $application_status, ApplicationStatusDocument $document, Intake $intake, Client $client, Institute $institute, User $user)
     {
         $this->application = $application;
         $this->application_status = $application_status;
@@ -24,6 +26,8 @@ class ApplicationStatusController extends BaseController
         $this->request = $request;
         $this->intake = $intake;
         $this->client = $client;
+        $this->institute = $institute;
+        $this->user = $user;
         parent::__construct();
     }
 
@@ -177,6 +181,24 @@ class ApplicationStatusController extends BaseController
     {
         $statusRecord = $this->application_status->statusRecord($status_id);
         return $statusRecord;
+    }
+
+    public function advancedSearch()
+    {
+        $data['status'] = Status::lists('name', 'status_id')->toArray();
+        array_unshift($data['status'], 'All');
+
+        $data['colleges'] = $this->institute->getList()->toArray();
+        array_unshift($data['colleges'], 'All');
+
+        $data['users'] = $this->user->getList()->toArray();
+        array_unshift($data['users'], 'All');
+
+        if ($this->request->isMethod('post')) {
+            $data['applications'] = $this->application->getFilterResults($this->request->all());
+            Flash::success(count($data['applications']).' records found.');
+        }
+        return view('Tenant::ApplicationStatus/search', $data);
     }
 
 

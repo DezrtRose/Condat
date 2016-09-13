@@ -361,6 +361,6 @@ class ApplicationStatus extends Model
             ->orderBy('status.status_id', 'asc')
             ->get();
         return $status;
-
     }
+
 }

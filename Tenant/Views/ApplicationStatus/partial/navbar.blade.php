@@ -29,7 +29,7 @@
         
         <li class="{{ Request::is('tenant/applications/cancelled') ? 'active' : ''}}" ><a href="#">Cancelled</a></li>
         
-        <li class="{{ Request::is('tenant/applications/advanced_search') ? 'active' : ''}}" ><a href="#">Advanced search</a></li>
+        <li class="{{ Request::is('tenant/applications/search') ? 'active' : ''}}" ><a href="{{ route('applications.search.index') }}">Advanced search</a></li>
       </ul>
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->

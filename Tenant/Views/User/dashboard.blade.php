@@ -71,28 +71,6 @@
                                 <span>{{ $stat->name }}</span></li>
                         @endforeach
                     </ul>
-
-                    {{--<li>
-                        <div data-applications="{{ $status['1']['0']->application_no }}" class="bar"></div>
-                        <span>Enquiry</span></li>
-                    <li>
-                        <div data-applications="{{ $status['2']['0']->application_no }}" class="bar"></div>
-                        <span>Offer Processing</span></li>
-                    <li>
-                        <div data-applications="{{ $status['3']['0']->application_no }}" class="bar"></div>
-                        <span>Offer Received</span></li>
-                    <li>
-                        <div data-applications="{{ $status['4']['0']->application_no }}" class="bar"></div>
-                        <span>Coe Processing</span></li>
-                    <li>
-                        <div data-applications="{{ $status['5']['0']->application_no }}" class="bar"></div>
-                        <span>Coe Received</span></li>
-                    <li>
-                        <div data-applications="{{ $status['6']['0']->application_no }}" class="bar"></div>
-                        <span>Course Started</span></li>
-                    <li>
-                        <div data-applications="{{ $status['7']['0']->application_no }}" class="bar"></div>
-                        <span>Course Completed</span></li>--}}
                 </div>
             </div>
             <br>
