@@ -13,56 +13,43 @@
         @include('flash::message')
     </div>
 
-    <div class="col-md-4 col-xs-12">
+    <div class="col-md-12 col-xs-12">
         <div class="box box-primary">
+            {!!Form::model($search_attributes, array('route' => 'application.search', 'method' => 'post', 'class' => ''))!!}
             <div class="box-header">
                 <h3 class="box-title">Filter Options</h3>
                 <input type="submit" class="btn btn-primary pull-right" value="Search"/>
             </div>
-            {!!Form::open(array('route' => 'application.search', 'method' => 'post', 'class' => 'form-horizontal form-left'))!!}
+
             <div class="box-body">
 
-                <div class="form-group">
-                    {!!Form::label('status', 'Status', array('class' => 'col-sm-4 control-label')) !!}
-                    <div class="col-sm-8">
+                <div class="form-group col-md-4 col-xs-12">
+                    {!!Form::label('status', 'Status', array('class' => 'control-label')) !!}
                         {!!Form::select('status', $status, null, array('class' => 'form-control select2'))!!}
-                    </div>
                 </div>
-                <div class="form-group">
-                    {!!Form::label('college_name', 'College Name', array('class' => 'col-sm-4 control-label')) !!}
-                    <div class="col-sm-8">
-                        {!!Form::select('college_name', $colleges, null, array('class' => 'form-control select2', 'multiple' => 'multiple'))!!}
-                    </div>
+                <div class="form-group col-md-4 col-xs-12">
+                    {!!Form::label('college_name', 'College Name', array('class' => 'control-label')) !!}
+                        {!!Form::select('college_name[]', $colleges, null, array('class' => 'form-control select2', 'multiple' => 'multiple'))!!}
                 </div>
-                <div class="form-group">
-                    {!!Form::label('course_name', 'Course Name', array('class' => 'col-sm-4 control-label')) !!}
-                    <div class="col-sm-8">
+                <div class="form-group col-md-4 col-xs-12">
+                    {!!Form::label('course_name', 'Course Name', array('class' => 'control-label')) !!}
                         {!!Form::text('course_name', null, array('class' => 'form-control', 'id'=>'course_name'))!!}
-                    </div>
                 </div>
-                <div class="form-group">
-                    {!!Form::label('client_name', 'Client Name', array('class' => 'col-sm-4 control-label')) !!}
-                    <div class="col-sm-8">
+                <div class="form-group col-md-4 col-xs-12">
+                    {!!Form::label('added_by', 'Added By', array('class' => 'control-label')) !!}
+                    {!!Form::select('added_by', $users, null, array('class' => 'form-control select2'))!!}
+                </div>
+                <div class="form-group col-md-4 col-xs-12">
+                    {!!Form::label('client_name', 'Client Name', array('class' => 'control-label')) !!}
                         {!!Form::text('client_name', null, array('class' => 'form-control', 'id'=>'client_name'))!!}
-                    </div>
                 </div>
-                <div class="form-group">
-                    {!!Form::label('invoice_to', 'Invoice To', array('class' => 'col-sm-4 control-label')) !!}
-                    <div class="col-sm-8">
+                <div class="form-group col-md-4 col-xs-12">
+                    {!!Form::label('invoice_to', 'Invoice To', array('class' => 'control-label')) !!}
                         {!!Form::text('invoice_to', null, array('class' => 'form-control', 'id'=>'invoice_to'))!!}
-                    </div>
                 </div>
-                <div class="form-group">
-                    {!!Form::label('added_by', 'Added By', array('class' => 'col-sm-4 control-label')) !!}
-                    <div class="col-sm-8">
-                        {!!Form::select('added_by', $users, null, array('class' => 'form-control select2'))!!}
-                    </div>
-                </div>
-                <div class="form-group">
-                    {!!Form::label('intake_date', 'Intake Date', array('class' => 'col-sm-4 control-label')) !!}
-                    <div class="col-sm-8">
-                        {{--<div class='input-group date'>
-                            {!!Form::text('from', null, array('class' => 'form-control datepicker', 'id'=>'from', 'placeholder' => "From"))!!}
+                <div class="form-group col-md-4 col-xs-12">
+                    {!!Form::label('intake_date', 'Intake Date', array('class' => 'control-label')) !!}
+                        {{--<div class='input-group date'>ray('class' => 'form-control datepicker', 'id'=>'from', 'placeholder' => "From"))!!}
                             <span class="input-group-addon">
                                 <span class="glyphicon glyphicon-calendar"></span>
                             </span>
@@ -79,29 +66,24 @@
                                 <span class="glyphicon glyphicon-calendar"></span>
                             </span>
                         </div>
-                    </div>
                 </div>
-                <div class="form-group">
-                    {!!Form::label('super_agent', 'Super Agent', array('class' => 'col-sm-4 control-label')) !!}
-                    <div class="col-sm-8">
-                        {!!Form::text('super_agent', null, array('class' => 'form-control', 'id'=>'super_agent'))!!}
-                    </div>
+                <div class="form-group col-md-4 col-xs-12">
+                    {!!Form::label('super_agent', 'Super Agent', array('class' => 'control-label')) !!}
+                    {!!Form::select('super_agent[]', $agents, null, array('class' => 'form-control select2', 'multiple' => 'multiple'))!!}
                 </div>
-                <div class="form-group">
-                    {!!Form::label('sub_agent', 'Sub Agent', array('class' => 'col-sm-4 control-label')) !!}
-                    <div class="col-sm-8">
-                        {!!Form::text('sub_agent', null, array('class' => 'form-control', 'id'=>'sub_agent'))!!}
-                    </div>
+                <div class="form-group col-md-4 col-xs-12">
+                    {!!Form::label('sub_agent', 'Sub Agent', array('class' => 'control-label')) !!}
+                    {!!Form::select('sub_agent[]', $agents, null, array('class' => 'form-control select2', 'multiple' => 'multiple'))!!}
                 </div>
             </div>
-            <div class="box-footer clearfix">
+            {{--<div class="box-footer clearfix">
                 <input type="submit" class="btn btn-primary pull-right" value="Search"/>
-            </div>
+            </div>--}}
             {!!Form::close()!!}
         </div>
     </div>
 
-    <div class="col-md-8 col-xs-12">
+    <div class="col-md-12 col-xs-12">
             <div class="box box-info">
                 <div class="box-header with-border">
                     <h3 class="box-title">Filtered Applications</h3>
@@ -179,7 +161,18 @@
             });
 
             $('.dateranger').daterangepicker({
-                autoUpdateInput: false
+                autoUpdateInput: false,
+                locale: {
+                    cancelLabel: 'Clear'
+                }
+            });
+
+            $('.dateranger').on('apply.daterangepicker', function(ev, picker) {
+                $(this).val(picker.startDate.format('MM/DD/YYYY') + ' - ' + picker.endDate.format('MM/DD/YYYY'));
+            });
+
+            $('.dateranger').on('cancel.daterangepicker', function(ev, picker) {
+                $(this).val('');
             });
         });
     </script>

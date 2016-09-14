@@ -2,6 +2,7 @@
 
 namespace App\Modules\Tenant\Controllers;
 
+use App\Modules\Tenant\Models\Agent;
 use App\Modules\Tenant\Models\Application\ApplicationStatusDocument;
 use App\Modules\Tenant\Models\Application\Status;
 use App\Modules\Tenant\Models\Client\Client;
@@ -17,7 +18,7 @@ use Flash;
 
 class ApplicationStatusController extends BaseController
 {
-    function __construct(CourseApplication $application, Request $request, Notes $note, ApplicationStatus $application_status, ApplicationStatusDocument $document, Intake $intake, Client $client, Institute $institute, User $user)
+    function __construct(CourseApplication $application, Request $request, Notes $note, ApplicationStatus $application_status, ApplicationStatusDocument $document, Intake $intake, Client $client, Institute $institute, User $user, Agent $agent)
     {
         $this->application = $application;
         $this->application_status = $application_status;
@@ -28,6 +29,7 @@ class ApplicationStatusController extends BaseController
         $this->client = $client;
         $this->institute = $institute;
         $this->user = $user;
+        $this->agent = $agent;
         parent::__construct();
     }
 
@@ -189,14 +191,19 @@ class ApplicationStatusController extends BaseController
         array_unshift($data['status'], 'All');
 
         $data['colleges'] = $this->institute->getList()->toArray();
-        array_unshift($data['colleges'], 'All');
 
         $data['users'] = $this->user->getList()->toArray();
         array_unshift($data['users'], 'All');
 
+        $data['agents'] = $this->agent->getAgents();;
+        unset($data['agents'][0]);
+
+        $data['search_attributes'] = array();
+
         if ($this->request->isMethod('post')) {
             $data['applications'] = $this->application->getFilterResults($this->request->all());
-            Flash::success(count($data['applications']).' records found.');
+            $data['search_attributes'] =$this-> request->all();
+            Flash::success(count($data['applications']).' record(s) found.');
         }
         return view('Tenant::ApplicationStatus/search', $data);
     }

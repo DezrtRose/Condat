@@ -28,17 +28,27 @@
                         {!!Form::select('status', $status, null, array('class' => 'form-control select2'))!!}
                     </div>
                 </div>
+
                 <div class="form-group">
-                    {!!Form::label('client_name', 'College Name', array('class' => 'col-sm-4 control-label')) !!}
+                    {!!Form::label('college_name', 'Institute Name', array('class' => 'col-sm-4 control-label')) !!}
+                    <div class="col-sm-8">
+                        {!!Form::select('college_name', $colleges, null, array('class' => 'form-control select2', 'multiple' => 'multiple'))!!}
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    {!!Form::label('client_name', 'Client Name', array('class' => 'col-sm-4 control-label')) !!}
                     <div class="col-sm-8">
                         {!!Form::text('client_name', null, array('class' => 'form-control', 'id'=>'client_name'))!!}
                     </div>
                 </div>
+
                 <div class="form-group">
-                    {!!Form::label('intake_date', 'Intake Date', array('class' => 'col-sm-4 control-label')) !!}
+                    {!!Form::label('invoice_date', 'Invoice Date', array('class' => 'col-sm-4 control-label')) !!}
                     <div class="col-sm-8">
                         <div class='input-group'>
-                            {!!Form::text('intake_date', null, array('class' => 'form-control dateranger', 'id'=>'intake_date', 'placeholder' => "Select Date Range"))!!}
+                            {!!Form::text('invoice_date', null, array('class' => 'form-control dateranger', 'id'=>'invoice_date', 'placeholder' => "Select Date Range"))!!}
                             <span class="input-group-addon">
                                 <span class="glyphicon glyphicon-calendar"></span>
                             </span>
@@ -49,12 +59,6 @@
                     {!!Form::label('amount', 'Amount', array('class' => 'col-sm-4 control-label')) !!}
                     <div class="col-sm-8">
                         {!!Form::text('amount', null, array('class' => 'form-control', 'id'=>'amount'))!!}
-                    </div>
-                </div>
-                <div class="form-group">
-                    {!!Form::label('college_name', 'College Name', array('class' => 'col-sm-4 control-label')) !!}
-                    <div class="col-sm-8">
-                        {!!Form::select('college_name', $colleges, null, array('class' => 'form-control select2', 'multiple' => 'multiple'))!!}
                     </div>
                 </div>
             </div>

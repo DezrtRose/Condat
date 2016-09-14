@@ -133,6 +133,7 @@ class CourseApplication extends Model
 
     function getFilterResults($request)
     {
+        //dd($request);
         $applications_query = CourseApplication::join('clients', 'clients.client_id', '=', 'course_application.client_id')
             ->leftJoin('persons', 'clients.person_id', '=', 'persons.person_id')
             ->leftJoin('person_emails', 'person_emails.person_id', '=', 'persons.person_id')
@@ -144,12 +145,38 @@ class CourseApplication extends Model
             ->leftJoin('companies', 'institutes.company_id', '=', 'companies.company_id')
             ->leftjoin('intakes', 'intakes.intake_id', '=', 'course_application.intake_id')
             ->join('application_status', 'application_status.course_application_id', '=', 'course_application.course_application_id')
-            ->select([DB::raw('CONCAT(persons.first_name, " ", persons.last_name) AS fullname'), 'companies.name as company', 'companies.invoice_to_name as invoice_to', 'courses.name', 'intakes.intake_date', 'course_application.course_application_id', 'phones.number', 'emails.email'])
+            ->select([DB::raw('CONCAT(persons.first_name, " ", persons.last_name) AS fullname'), 'companies.name as company', 'companies.invoice_to_name as invoice_to', 'courses.name', 'intakes.intake_date', 'course_application.course_application_id', 'phones.number', 'emails.email', 'course_application.user_id as added_by'])
             ->where('application_status.active', 1)
             ->orderBy('course_application.course_application_id', 'desc');
 
         if($request['status'] != 0)
             $applications_query = $applications_query->where('application_status.status_id', $request['status']);
+
+        if($request['added_by'] != 0)
+            $applications_query = $applications_query->where('course_application.user_id', $request['added_by']);
+
+        if($request['intake_date'] != '') {
+            $dates = explode(' - ', $request['intake_date']);
+            $applications_query = $applications_query->whereBetween('intakes.intake_date', array(insert_dateformat($dates[0]), insert_dateformat($dates[1])));
+        }
+
+        if($request['course_name'] != '')
+            $applications_query = $applications_query->where('courses.name', 'LIKE', '%'.$request['course_name'].'%');
+
+        if($request['client_name'] != '')
+            $applications_query = $applications_query->where(DB::raw('CONCAT(persons.first_name, " ", persons.last_name)'), 'LIKE', '%'.$request['client_name'].'%');
+
+        if($request['invoice_to'] != '')
+            $applications_query = $applications_query->where('companies.invoice_to_name', 'LIKE', '%'.$request['invoice_to'].'%');
+
+        if(isset($request['super_agent']) && !empty($request['super_agent']))
+            $applications_query = $applications_query->whereIn('course_application.super_agent_id', $request['super_agent']);
+
+        if(isset($request['college_name']) && !empty($request['college_name']))
+            $applications_query = $applications_query->whereIn('course_application.institute_id', $request['college_name']);
+
+        if(isset($request['super_agent']) && !empty($request['sub_agent_id']))
+            $applications_query = $applications_query->whereIn('course_application.sub_agent_id', $request['sub_agent_id']); //invoice to
 
         $applications = $applications_query->get();
 
