@@ -18,6 +18,8 @@
         <li class="{{ Request::is('tenant/client_invoice_report/invoice_paid') ? 'active' : '' }}"><a href="{{ route('client.invoice.paid') }}">Paid Invoices</a></li>
         
         <li class="{{ Request::is('tenant/client_invoice_report/invoice_future') ? 'active' : '' }}"><a href="{{ route('client.invoice.future') }}">Future Invoices</a></li>
+
+        <li class="{{ Request::is('tenant/client_invoice_report/search') ? 'active' : '' }}"><a href="{{ route('client.invoice.search') }}">Advance Search</a></li>
       </ul>
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->

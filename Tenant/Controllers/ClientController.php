@@ -385,6 +385,8 @@ class ClientController extends BaseController
 
         //$extension =
         $extension = pathinfo($url, PATHINFO_EXTENSION);
+        //remove get request
+        $extension = strtok($extension, '?');
         $filename = str_random(4).'-'.str_slug($title).'.'. $extension;
         //get file content from url
         $file = file_get_contents($url);

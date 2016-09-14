@@ -330,10 +330,12 @@ Route::group(array('prefix' => 'tenant', 'module' => 'Tenant', 'middleware' => '
     Route::get('client_invoice_report/invoice_pending', ['as'=>'client.invoice.pending', 'uses'=>'InvoiceReportController@clientInvoicePending']);
     Route::get('client_invoice_report/invoice_paid', ['as'=>'client.invoice.paid', 'uses'=>'InvoiceReportController@clientInvoicePaid']);
     Route::get('client_invoice_report/invoice_future', ['as'=>'client.invoice.future', 'uses'=>'InvoiceReportController@clientInvoicefuture']);
+    Route::get('client_invoice_report/search', ['as'=>'client.invoice.search', 'uses'=>'InvoiceReportController@clientInvoiceSearch']);
 
     Route::get('college_invoice_report/invoice_pending', ['as'=>'college.invoice.pending', 'uses'=>'InvoiceReportController@collegeInvoicePending']);
     Route::get('college_invoice_report/invoice_paid', ['as'=>'college.invoice.paid', 'uses'=>'InvoiceReportController@collegeInvoicePaid']);
     Route::get('college_invoice_report/invoice_future', ['as'=>'college.invoice.future', 'uses'=>'InvoiceReportController@collegeInvoicefuture']);
+    Route::get('college_invoice_report/search', ['as'=>'college.invoice.search', 'uses'=>'InvoiceReportController@collegeInvoiceSearch']);
 
 
     //end anish routes
