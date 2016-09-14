@@ -58,11 +58,13 @@ class InvoiceReportController extends BaseController
             3 => 'Future'];
 
         $data['colleges'] = $this->institute->getList()->toArray();
-        array_unshift($data['colleges'], 'All');
+
+        $data['search_attributes'] = array();
 
         if ($this->request->isMethod('post')) {
-            //$data['applications'] = $this->application->getFilterResults($this->request->all());
-            Flash::success(count($data['applications']) . ' records found.');
+            $data['invoice_reports'] = $this->student_invoice->getFilterResults($this->request->all());
+            $data['search_attributes'] = $this-> request->all();
+            Flash::success(count($data['invoice_reports']) . ' record(s) found.');
         }
         return view('Tenant::InvoiceReport/ClientInvoice/search', $data);
     }

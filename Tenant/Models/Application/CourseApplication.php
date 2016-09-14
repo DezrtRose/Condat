@@ -175,8 +175,8 @@ class CourseApplication extends Model
         if(isset($request['college_name']) && !empty($request['college_name']))
             $applications_query = $applications_query->whereIn('course_application.institute_id', $request['college_name']);
 
-        if(isset($request['super_agent']) && !empty($request['sub_agent_id']))
-            $applications_query = $applications_query->whereIn('course_application.sub_agent_id', $request['sub_agent_id']); //invoice to
+        if(isset($request['sub_agent']) && !empty($request['sub_agent']))
+            $applications_query = $applications_query->whereIn('course_application.sub_agent_id', $request['sub_agent']); //invoice to
 
         $applications = $applications_query->get();
 
