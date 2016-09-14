@@ -10,8 +10,8 @@
     <div class="container">
         <div class="row">
             @include('Tenant::Client/client_header')
-            @include('flash::message')
         </div>
+        @include('flash::message')
         <div class="col-md-3">
 
             <div class="row">
