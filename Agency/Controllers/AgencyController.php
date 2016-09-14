@@ -208,14 +208,29 @@ class AgencyController extends BaseController {
 	 */
 	public function postSubscriptionRenew($agency_id)
 	{
-		$rules['payment_date'] = 'required|date';
+		$rules['payment_date'] = 'required';
 
 		$this->validate($this->request, $rules);
+
 		// if validates
 		$updated = $this->subscription->renew($this->request->all(), $agency_id);
 		if($updated)
 			Flash::success('Subscription has been renewed successfully.');
 		return redirect()->route('agency.index');
 	}
+
+	public function get_subscription_amount(Request $request)
+    {
+        $resp = false;
+        $post = $request->all();
+        if(isset($post['subscription_type']) && isset($post['subscription_years'])) {
+            $subscription = new Subscription();
+            $data = $subscription->find($post['subscription_type']);
+            if($data) {
+                $resp = ($data->amount * $post['subscription_years']) - (($post['subscription_years'] - 1) / 100) * (($data->amount * $post['subscription_years']) * 5);
+            }
+        }
+        echo $resp;
+    }
 
 }
