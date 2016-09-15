@@ -35,7 +35,9 @@ class DashboardController extends BaseController {
 		$agencies = Agency::leftJoin('companies','agencies.agency_id','=','companies.agencies_agent_id')
             ->leftJoin('agency_subscriptions', 'agencies.agency_id', '=', 'agency_subscriptions.agency_id')
 			->select(['agencies.agency_id', 'agencies.created_at', DB::raw('case when companies.phone_id = 0 then "N/A" else companies.phone_id end as phone_id'), 'companies.name', 'companies.email_id', 'end_date', DB::raw('case when subscription_status_id = 1 then "Trail" else "Paid" end as subscription_status_id'), DB::raw('case when subscription_id = 1 then "Basic" when subscription_id = 2 then "Standard" else "Premium" end as subscription_id')])
-			->where('agencies.created_at', '>', Carbon::now()->subMonth(2));
+			->where('agencies.created_at', '>', Carbon::now()->subMonth(2))
+            ->groupBy('agencies.agency_id')
+            ->orderBy('agencies.agency_id', 'desc');
 
 		$datatable = \Datatables::of($agencies)
 			->editColumn('created_at', function($data){return format_datetime($data->created_at); })
@@ -53,7 +55,9 @@ class DashboardController extends BaseController {
 		$agencies = Agency::leftJoin('companies','agencies.agency_id','=','companies.agencies_agent_id')
             ->leftJoin('agency_subscriptions', 'agencies.agency_id', '=', 'agency_subscriptions.agency_id')
 			->select(['agencies.agency_id', 'agencies.created_at', DB::raw('case when companies.phone_id = 0 then "N/A" else companies.phone_id end as phone_id'), 'companies.name', 'companies.email_id', 'end_date', DB::raw('case when subscription_status_id = 1 then "Trail" else "Paid" end as subscription_status_id'), DB::raw('case when subscription_id = 1 then "Basic" when subscription_id = 2 then "Standard" else "Premium" end as subscription_id')])
-			->where('agency_subscriptions.end_date', '<', Carbon::now()->addMonths(2)); //remove this later and add expiring condition
+			->where('agency_subscriptions.end_date', '<', Carbon::now()->addMonths(2))
+            ->groupBy('agencies.agency_id')
+            ->orderBy('agencies.agency_id', 'desc');
 
         $datatable = \Datatables::of($agencies)
 			->editColumn('created_at', function($data){return format_datetime($data->created_at); })
