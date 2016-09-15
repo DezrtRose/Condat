@@ -49,7 +49,8 @@ class AgencyController extends BaseController {
 	function getData(Request $request)
 	{
 		$agencies = Agency::leftJoin('companies','agencies.agency_id','=','companies.agencies_agent_id')
-			->select(['agency_id', 'agencies.created_at', 'company_database_name', 'companies.name', 'companies.email_id']);
+			->select(['agency_id', 'agencies.created_at', 'company_database_name', 'companies.name', 'companies.email_id'])
+            ->orderBy('agency_id', 'desc');
 
 		$datatable = \Datatables::of($agencies)
 			->editColumn('created_at', function($data){return format_datetime($data->created_at); })
