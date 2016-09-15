@@ -2,6 +2,7 @@
 
 use App\Http\Requests;
 use App\Modules\Tenant\Models\Institute\Institute;
+use App\Modules\Tenant\Models\Invoice\CollegeInvoice;
 use App\Modules\Tenant\Models\Invoice\Invoice;
 use App\Modules\Tenant\Models\Invoice\StudentInvoice;
 use App\Modules\Tenant\Models\Report\Report;
@@ -14,11 +15,12 @@ use Illuminate\Http\Request;
 class InvoiceReportController extends BaseController
 {
 
-    function __construct(Invoice $invoice, StudentInvoice $student_invoice, Report $report, Institute $institute, Request $request)
+    function __construct(Invoice $invoice, StudentInvoice $student_invoice, Report $report, Institute $institute, Request $request, CollegeInvoice $college_invoice)
     {
         $this->invoice = $invoice;
         $this->student_invoice = $student_invoice;
-        $this->Report = $report;
+        $this->college_invoice = $college_invoice;
+        $this->report = $report;
         $this->institute = $institute;
         $this->request = $request;
         parent::__construct();
@@ -73,29 +75,20 @@ class InvoiceReportController extends BaseController
     // college Invoices
     public function collegeInvoicePending()
     {
-        $data['invoice_reports'] = $this->Report->CollegeInvoiceReport();
-        $data['date'] = Carbon::now();
-
+        $data['invoice_reports'] = $this->college_invoice->getAll();
         return view("Tenant::InvoiceReport/CollegeInvoice/invoice_pending", $data);
     }
 
     public function CollegeInvoicePaid()
     {
-        $data['invoice_reports'] = $this->invoice->CollegeInvoiceReport();
-
-        $data['date'] = Carbon::now();
-
+        $data['invoice_reports'] = $this->college_invoice->getAll(2);
         return view("Tenant::InvoiceReport/CollegeInvoice/invoice_paid", $data);
-
     }
 
 
     public function collegeInvoiceFuture()
     {
-        $data['invoice_reports'] = $this->invoice->CollegeInvoiceReport();
-
-        $data['date'] = Carbon::now();
-
+        $data['invoice_reports'] = $this->college_invoice->getAll(3);
         return view("Tenant::InvoiceReport/CollegeInvoice/invoice_future", $data);
     }
 

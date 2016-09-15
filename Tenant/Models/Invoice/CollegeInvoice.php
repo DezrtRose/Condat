@@ -216,4 +216,37 @@ class CollegeInvoice extends Model
             // something went wrong
         }
     }
+
+    function getAll($status = 1)
+    {
+        $invoices_query = CollegeInvoice::leftjoin('college_invoice_payments', 'college_invoice_payments.college_invoice_id', '=', 'college_invoices.college_invoice_id')
+            ->leftjoin('college_payments', 'college_payments.college_payment_id', '=', 'college_invoice_payments.ci_payment_id')
+            ->leftJoin('course_application', 'course_application.course_application_id', '=', 'college_invoices.course_application_id')
+            ->leftjoin('courses', 'course_application.institution_course_id', '=', 'courses.course_id')
+            ->leftjoin('institute_courses', 'institute_courses.course_id', '=', 'courses.course_id')
+            ->leftjoin('institutes', 'institute_courses.institute_id', '=', 'institutes.institution_id')
+            ->leftjoin('companies', 'companies.company_id', '=', 'institutes.company_id')
+            ->leftjoin('clients', 'clients.client_id', '=', 'course_application.client_id')
+            ->leftjoin('persons', 'persons.person_id', '=', 'clients.person_id')
+            ->leftjoin('person_emails', 'persons.person_id', '=', 'person_emails.person_id')
+            ->leftjoin('emails', 'emails.email_id', '=', 'person_emails.email_id')
+            ->leftjoin('person_phones', 'persons.person_id', '=', 'person_phones.person_id')
+            ->leftjoin('phones', 'person_phones.phone_id', '=', 'phones.phone_id')
+            ->select(['college_invoices.college_invoice_id', DB::raw('CONCAT(persons.first_name, " ", persons.last_name) AS fullname'), 'email', 'phones.number', 'companies.name as institute_name', 'college_invoices.final_total', 'college_invoices.college_invoice_id as invoice_id', 'college_invoices.final_total', 'college_invoices.total_gst', 'college_invoices.total_commission', 'college_invoices.invoice_date', DB::raw('IFNULL(SUM(college_payments.amount), 0) AS total_paid'), 'companies.name as institute_name', 'courses.name as course_name'])
+            ->orderBy('college_invoices.created_at', 'desc')
+            //->where('college_invoices.invoice_date', '<=', get_today_datetime())
+            ->groupBy('college_invoices.college_invoice_id');
+
+        if ($status == 1) { // Pending
+            $invoices_query = $invoices_query->havingRaw('college_invoices.total_commission - IFNULL(SUM(college_payments.amount), 0) > 0'); //->where('college_invoices.invoice_date', '<=', get_today_datetime());
+        } elseif ($status == 2) { // Paid
+            $invoices_query = $invoices_query->havingRaw('college_invoices.total_commission - IFNULL(SUM(college_payments.amount), 0) <= 0');
+        } elseif ($status == 3) { // Future
+            $invoices_query = $invoices_query->where('college_invoices.invoice_date', '>', get_today_datetime());
+        }
+
+        $invoices = $invoices_query->get();
+        //dd($invoices->toArray());
+        return $invoices;
+    }
 }
