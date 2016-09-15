@@ -56,7 +56,7 @@ class Agency extends Model
                 'guid' => \Condat::uniqueKey(10, 'agencies', 'guid')
             ]);
 
-            $subscription->activateTrail($request, $agency->id);
+            $subscription->activateTrail($request, $agency->agency_id);
 
             Company::create([
                 'name' => $request['name'],
@@ -66,13 +66,13 @@ class Agency extends Model
                 'website' => isset($request['website']) ? $request['website'] : '',
                 'invoice_to_name' => isset($request['invoice_to_name']) ? $request['invoice_to_name'] : '',
                 'email_id' => $request['email_id'],
-                'agencies_agent_id' => $agency->id,
-                'addresses_address_id' => $address->id
+                'agencies_agent_id' => $agency->agency_id,
+                'addresses_address_id' => $address->address_id
             ]);
 
             //create independent database
             $tenant = app('App\Condat\Libraries\Tenant');
-            $unique_auth_code = $request['unique_auth_code'] = md5(uniqid($agency->id, true));
+            $unique_auth_code = $request['unique_auth_code'] = md5(uniqid($agency->agency_id, true));
             //$tenant->authenticateTenant();
             $tenant->newTenant($request);
 
