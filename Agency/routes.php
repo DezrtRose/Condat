@@ -6,4 +6,5 @@ Route::group(array('module' => 'Agency', 'middleware' => ['auth'], 'namespace' =
     Route::get('domain/suggestion/{name}', 'AgencyController@getDomainSuggestion');
     Route::get('subscription/{id}/renew', ['as' => 'agency.renew', 'uses' => 'AgencyController@subscriptionRenew']);
     Route::post('subscription/{id}/renew', 'AgencyController@postSubscriptionRenew');
+    Route::post('agency/get_subscription_amount', 'AgencyController@get_subscription_amount');
 });
