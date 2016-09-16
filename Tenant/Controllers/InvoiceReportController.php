@@ -52,7 +52,7 @@ class InvoiceReportController extends BaseController
 
         $data['date'] = Carbon::now();
 
-        return view("Tenant::InvoiceReport/Invoice/invoice_future", $data);
+        return view("Tenant::InvoiceReport/ClientInvoice/invoice_future", $data);
     }
 
     public function clientInvoiceSearch()
