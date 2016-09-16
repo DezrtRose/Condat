@@ -38,29 +38,29 @@ Route::group($group_auth, function () {
 });*/
 
 /* Tenant Routes for pages that don't need login */
-Route::group(array('prefix' => 'tenant', 'module' => 'Tenant', 'middleware' => 'guest.tenant', 'namespace' => 'App\Modules\Tenant\Controllers'), function() {
+Route::group(array('prefix' => 'tenant', 'module' => 'Tenant', 'middleware' => 'guest.tenant', 'namespace' => 'App\Modules\Tenant\Controllers'), function () {
     Route::get('login', ['as' => 'tenant.login', 'uses' => 'AuthController@getLogin']);
     Route::post('login', 'AuthController@postLogin');
 });
 
 /* Tenant Routes for pages that need authentication */
-Route::group(array('prefix' => 'tenant', 'module' => 'Tenant', 'middleware' => 'auth.tenant', 'namespace' => 'App\Modules\Tenant\Controllers'), function() {
+Route::group(array('prefix' => 'tenant', 'module' => 'Tenant', 'middleware' => 'auth.tenant', 'namespace' => 'App\Modules\Tenant\Controllers'), function () {
 
     /* Routes for File upload */
     Route::post('file/upload', 'FileController@upload');
     Route::get('file/delete', 'FileController@delete');
 
     /* Routes for Client module */
-    Route::get('clients',['as' => 'tenant.client.index', 'uses' => 'ClientController@index']);
-    Route::get('clients/create',['as' => 'tenant.client.create', 'uses' => 'ClientController@create']);
-    Route::post('clients',['as' => 'tenant.client.store', 'uses' => 'ClientController@store']);
-    Route::get('clients/{id}',['as' => 'tenant.client.show', 'uses' => 'ClientController@show']);
-    Route::get('clients/{id}/edit',['as' => 'tenant.client.edit', 'uses' => 'ClientController@edit']);
-    Route::put('clients/{id}',['as' => 'tenant.client.update', 'uses' => 'ClientController@update']);
-    Route::delete('clients/{id}',['as' => 'tenant.client.destroy', 'uses' => 'ClientController@destroy']);
+    Route::get('clients', ['as' => 'tenant.client.index', 'uses' => 'ClientController@index']);
+    Route::get('clients/create', ['as' => 'tenant.client.create', 'uses' => 'ClientController@create']);
+    Route::post('clients', ['as' => 'tenant.client.store', 'uses' => 'ClientController@store']);
+    Route::get('clients/{id}', ['as' => 'tenant.client.show', 'uses' => 'ClientController@show']);
+    Route::get('clients/{id}/edit', ['as' => 'tenant.client.edit', 'uses' => 'ClientController@edit']);
+    Route::put('clients/{id}', ['as' => 'tenant.client.update', 'uses' => 'ClientController@update']);
+    Route::delete('clients/{id}', ['as' => 'tenant.client.destroy', 'uses' => 'ClientController@destroy']);
 
-    Route::post('clients/{id}/upload',['as' => 'tenant.client.upload', 'uses' => 'ClientController@upload']);
-    Route::post('clients/{id}/urlUpload',['as' => 'tenant.client.urlUpload', 'uses' => 'ClientController@urlUpload']);
+    Route::post('clients/{id}/upload', ['as' => 'tenant.client.upload', 'uses' => 'ClientController@upload']);
+    Route::post('clients/{id}/urlUpload', ['as' => 'tenant.client.urlUpload', 'uses' => 'ClientController@urlUpload']);
 
     Route::get('client/data', 'ClientController@getData');
     Route::get('clients/{client_id}/document', ['as' => 'tenant.client.document', 'uses' => 'ClientController@document']);
@@ -68,8 +68,8 @@ Route::group(array('prefix' => 'tenant', 'module' => 'Tenant', 'middleware' => '
     Route::get('clients/document/{document_id}/download', ['as' => 'tenant.client.document.download', 'uses' => 'ClientController@downloadDocument']);
 
     Route::get('clients/{client_id}/accounts', ['as' => 'tenant.accounts.index', 'uses' => 'AccountController@index']);
-    Route::get('courses/{institute_id}',['as' => 'tenant.institute.course', 'uses' => 'CourseController@getCourses']);
-    Route::get('intakes/{institute_id}',['as' => 'tenant.institute.intake', 'uses' => 'IntakeController@getIntakes']);
+    Route::get('courses/{institute_id}', ['as' => 'tenant.institute.course', 'uses' => 'CourseController@getCourses']);
+    Route::get('intakes/{institute_id}', ['as' => 'tenant.institute.intake', 'uses' => 'IntakeController@getIntakes']);
 
     Route::get('account/payment/{payment_id}/{application_id}/assign', ['as' => 'tenant.account.payment.assign', 'uses' => 'AccountController@assignInvoice']);
 
@@ -101,19 +101,19 @@ Route::group(array('prefix' => 'tenant', 'module' => 'Tenant', 'middleware' => '
 
     /* Routes for Client Application module */
     Route::get('applications/{client_id}/data', 'ApplicationController@getApplicationsData');
-    Route::get('applications',['as' => 'tenant.application.index', 'uses' => 'ApplicationController@index']);
+    Route::get('applications', ['as' => 'tenant.application.index', 'uses' => 'ApplicationController@index']);
     Route::get('applications/{client_id}/create', ['as' => 'tenant.application.create', 'uses' => 'ApplicationController@create']);
-    Route::post('applications/{client_id}',['as' => 'tenant.application.store', 'uses' => 'ApplicationController@store']);
-    Route::get('applications/{id}/show',['as' => 'tenant.application.show', 'uses' => 'ApplicationController@show']);
-    Route::get('applications/{id}/edit',['as' => 'tenant.application.edit', 'uses' => 'ApplicationController@edit']);
-    Route::put('applications/{id}',['as' => 'tenant.application.update', 'uses' => 'ApplicationController@update']);
-    Route::delete('applications/{id}',['as' => 'tenant.application.destroy', 'uses' => 'ApplicationController@destroy']);
-    Route::get('applications/{id}/documents',['as' => 'tenant.application.document', 'uses' => 'ApplicationController@documents']);
-    Route::get('applications/{id}/notes',['as' => 'tenant.application.notes', 'uses' => 'ApplicationController@notes']);
-    Route::post('applications/{id}/notes',['as' => 'tenant.application.notes', 'uses' => 'ApplicationController@saveNote']);
+    Route::post('applications/{client_id}', ['as' => 'tenant.application.store', 'uses' => 'ApplicationController@store']);
+    Route::get('applications/{id}/show', ['as' => 'tenant.application.show', 'uses' => 'ApplicationController@show']);
+    Route::get('applications/{id}/edit', ['as' => 'tenant.application.edit', 'uses' => 'ApplicationController@edit']);
+    Route::put('applications/{id}', ['as' => 'tenant.application.update', 'uses' => 'ApplicationController@update']);
+    Route::delete('applications/{id}', ['as' => 'tenant.application.destroy', 'uses' => 'ApplicationController@destroy']);
+    Route::get('applications/{id}/documents', ['as' => 'tenant.application.document', 'uses' => 'ApplicationController@documents']);
+    Route::get('applications/{id}/notes', ['as' => 'tenant.application.notes', 'uses' => 'ApplicationController@notes']);
+    Route::post('applications/{id}/notes', ['as' => 'tenant.application.notes', 'uses' => 'ApplicationController@saveNote']);
 
     /* Get application timline */
-    Route::get('applications/{id}/details',['as' => 'tenant.application.details', 'uses' => 'ApplicationController@details']);
+    Route::get('applications/{id}/details', ['as' => 'tenant.application.details', 'uses' => 'ApplicationController@details']);
 
     /* Get forms to add through ajax */
     Route::get('application/institute/add', ['as' => 'application.institute.add', 'uses' => 'ApplicationController@createInstitute']);
@@ -220,15 +220,15 @@ Route::group(array('prefix' => 'tenant', 'module' => 'Tenant', 'middleware' => '
 
     /* Routes for Company Contacts */
     Route::get('institutes/{institute_id}/contacts', 'ContactController@getData');
-    Route::get('contact/{id}',['as' => 'tenant.contact.edit', 'uses' => 'ContactController@edit']);
-    Route::post('contact/{id}',['as' => 'tenant.contact.update', 'uses' => 'ContactController@update']);
-    Route::delete('contact/{id}',['as' => 'tenant.contact.destroy', 'uses' => 'ContactController@destroy']);
+    Route::get('contact/{id}', ['as' => 'tenant.contact.edit', 'uses' => 'ContactController@edit']);
+    Route::post('contact/{id}', ['as' => 'tenant.contact.update', 'uses' => 'ContactController@update']);
+    Route::delete('contact/{id}', ['as' => 'tenant.contact.destroy', 'uses' => 'ContactController@destroy']);
 
     /* Routes for Institute Address */
     Route::get('institutes/{institute_id}/addresses', 'AddressController@getData');
-    Route::get('address/{id}',['as' => 'tenant.address.edit', 'uses' => 'AddressController@edit']);
-    Route::post('address/{id}',['as' => 'tenant.address.update', 'uses' => 'AddressController@update']);
-    Route::delete('address/{id}',['as' => 'tenant.address.destroy', 'uses' => 'AddressController@destroy']);
+    Route::get('address/{id}', ['as' => 'tenant.address.edit', 'uses' => 'AddressController@edit']);
+    Route::post('address/{id}', ['as' => 'tenant.address.update', 'uses' => 'AddressController@update']);
+    Route::delete('address/{id}', ['as' => 'tenant.address.destroy', 'uses' => 'AddressController@destroy']);
 
     /* Routes for Super Agents */
     Route::post('superagents/{institute_id}/store', 'AgentController@storeSuperAgent');
@@ -237,46 +237,46 @@ Route::group(array('prefix' => 'tenant', 'module' => 'Tenant', 'middleware' => '
     Route::get('agent/data', 'AgentController@getData');
 
     /* Routes for Course module */
-    Route::get('institutes/{institute_id}/courses',['as' => 'tenant.course.index', 'uses' => 'CourseController@index']);
+    Route::get('institutes/{institute_id}/courses', ['as' => 'tenant.course.index', 'uses' => 'CourseController@index']);
     Route::get('courses/{institute_id}/data', 'InstituteController@getCoursesData');
-    Route::get('course/{id}',['as' => 'tenant.course.show', 'uses' => 'CourseController@show']);
-    Route::get('course/create/{id}',['as' => 'tenant.course.create', 'uses' => 'CourseController@create']);
-    Route::post('course/{id}/store',['as' => 'tenant.course.store', 'uses' => 'CourseController@store']);
-    Route::get('course/{id}/edit',['as' => 'tenant.course.edit', 'uses' => 'CourseController@edit']);
-    Route::put('course/{id}/update',['as' => 'tenant.course.update', 'uses' => 'CourseController@update']);
-    Route::delete('course',['as' => 'tenant.course.destroy', 'uses' => 'CourseController@destroy']);
-    Route::get('narrowfield/{broad_id}',['as' => 'tenant.course.narrow', 'uses' => 'CourseController@getNarrowField']);
+    Route::get('course/{id}', ['as' => 'tenant.course.show', 'uses' => 'CourseController@show']);
+    Route::get('course/create/{id}', ['as' => 'tenant.course.create', 'uses' => 'CourseController@create']);
+    Route::post('course/{id}/store', ['as' => 'tenant.course.store', 'uses' => 'CourseController@store']);
+    Route::get('course/{id}/edit', ['as' => 'tenant.course.edit', 'uses' => 'CourseController@edit']);
+    Route::put('course/{id}/update', ['as' => 'tenant.course.update', 'uses' => 'CourseController@update']);
+    Route::delete('course', ['as' => 'tenant.course.destroy', 'uses' => 'CourseController@destroy']);
+    Route::get('narrowfield/{broad_id}', ['as' => 'tenant.course.narrow', 'uses' => 'CourseController@getNarrowField']);
 
     /* Routes for Intake module */
-    Route::get('institutes/{institute_id}/intakes',['as' => 'tenant.intake.index', 'uses' => 'IntakeController@index']);
+    Route::get('institutes/{institute_id}/intakes', ['as' => 'tenant.intake.index', 'uses' => 'IntakeController@index']);
     Route::get('intakes/{institute_id}/data', 'InstituteController@getIntakesData');
-    Route::get('intakes/{id}show',['as' => 'tenant.intake.show', 'uses' => 'IntakeController@show']);
-    Route::get('intakes/create/{id}',['as' => 'tenant.intake.create', 'uses' => 'IntakeController@create']);
-    Route::post('intakes/{id}/store',['as' => 'tenant.intake.store', 'uses' => 'IntakeController@store']);
-    Route::get('intakes/{id}/edit',['as' => 'tenant.intake.edit', 'uses' => 'IntakeController@edit']);
-    Route::put('intakes/{id}/update',['as' => 'tenant.intake.update', 'uses' => 'IntakeController@update']);
-    Route::delete('intakes',['as' => 'tenant.intake.destroy', 'uses' => 'IntakeController@destroy']);
+    Route::get('intakes/{id}show', ['as' => 'tenant.intake.show', 'uses' => 'IntakeController@show']);
+    Route::get('intakes/create/{id}', ['as' => 'tenant.intake.create', 'uses' => 'IntakeController@create']);
+    Route::post('intakes/{id}/store', ['as' => 'tenant.intake.store', 'uses' => 'IntakeController@store']);
+    Route::get('intakes/{id}/edit', ['as' => 'tenant.intake.edit', 'uses' => 'IntakeController@edit']);
+    Route::put('intakes/{id}/update', ['as' => 'tenant.intake.update', 'uses' => 'IntakeController@update']);
+    Route::delete('intakes', ['as' => 'tenant.intake.destroy', 'uses' => 'IntakeController@destroy']);
 
     /* Routes for User Module */
     Route::resource('user', 'UserController');
     Route::get('users/data', 'UserController@getData');
     Route::get('profile', 'UserController@edit');
     Route::post('profile', 'UserController@update');
-    Route::get('users/dashboard','UserController@dashboard');
+    Route::get('users/dashboard', 'UserController@dashboard');
 
     /*routes for innerdocument*/
     Route::get('client/data', 'ClientController@getData');
     Route::get('clients/{client_id}/innerdocument', ['as' => 'tenant.client.innerdocument', 'uses' => 'ClientController@innerdocument']);
     Route::post('clients/{client_id}/innerdocument', 'ClientController@uploadInnerDocument');
     Route::get('clients/innerdocument/{document_id}/download', ['as' => 'tenant.client.innerdocument.download', 'uses' => 'ClientController@downloadDocument']);
-    
-   
-     /*routes for notes*/
+
+
+    /*routes for notes*/
     Route::get('clients/{client_id}/notes', 'ClientController@notes');
     Route::get('client/data', 'ClientController@getData');
     Route::get('clients/{client_id}/notes', ['as' => 'tenant.client.notes', 'uses' => 'ClientController@notes']);
     Route::post('clients/{client_id}/notes', 'ClientController@uploadClientNotes');
-    Route::get('note/{notes_id}/delete',['as' => 'tenant.client.notes.delete', 'uses' => 'ClientController@deleteNote']);
+    Route::get('note/{notes_id}/delete', ['as' => 'tenant.client.notes.delete', 'uses' => 'ClientController@deleteNote']);
 
     /* Routes for Client Email */
     Route::get('clients/{client_id}/compose', ['as' => 'tenant.client.compose', 'uses' => 'ClientController@compose']);
@@ -295,52 +295,55 @@ Route::group(array('prefix' => 'tenant', 'module' => 'Tenant', 'middleware' => '
     /* Routes for Reports Module */
     Route::get('reports/collegeInvoice', 'ReportController@CollegeInvoiceReport');
 
-    Route::get('applications/enquiry',['as' => 'applications.enquiry.index', 'uses' => 'ApplicationStatusController@index']);
-    Route::get('applications/offer_letter_processing',['as' => 'applications.offer_letter_processing.index', 'uses' => 'ApplicationStatusController@offerLetterProcessing']);
-    Route::get('applications/offer_letter_issued',['as' => 'applications.offer_letter_issued.index', 'uses' => 'ApplicationStatusController@offerLetterIssued']);
-    Route::get('applications/coe_processing',['as' => 'applications.coe_processing.index', 'uses' => 'ApplicationStatusController@coeProcessing']);
-    Route::get('applications/coe_issued',['as' => 'applications.coe_issued.index', 'uses' => 'ApplicationStatusController@coeIssued']);
-    Route::get('applications/enrolled',['as' => 'applications.enrolled.index', 'uses' => 'ApplicationStatusController@enrolled']);
-    Route::get('applications/completed',['as' => 'applications.completed.index', 'uses' => 'ApplicationStatusController@completed']);
-    Route::get('applications/cancelled',['as' => 'applications.cancelled.index', 'uses' => 'ApplicationStatusController@cancelled']);
-    Route::get('applications/search',['as' => 'applications.search.index', 'uses' => 'ApplicationStatusController@advancedSearch']);
-    Route::post('application/search',['as' => 'application.search', 'uses' => 'ApplicationStatusController@advancedSearch']);
+    Route::get('applications/enquiry', ['as' => 'applications.enquiry.index', 'uses' => 'ApplicationStatusController@index']);
+    Route::get('applications/offer_letter_processing', ['as' => 'applications.offer_letter_processing.index', 'uses' => 'ApplicationStatusController@offerLetterProcessing']);
+    Route::get('applications/offer_letter_issued', ['as' => 'applications.offer_letter_issued.index', 'uses' => 'ApplicationStatusController@offerLetterIssued']);
+    Route::get('applications/coe_processing', ['as' => 'applications.coe_processing.index', 'uses' => 'ApplicationStatusController@coeProcessing']);
+    Route::get('applications/coe_issued', ['as' => 'applications.coe_issued.index', 'uses' => 'ApplicationStatusController@coeIssued']);
+    Route::get('applications/enrolled', ['as' => 'applications.enrolled.index', 'uses' => 'ApplicationStatusController@enrolled']);
+    Route::get('applications/completed', ['as' => 'applications.completed.index', 'uses' => 'ApplicationStatusController@completed']);
+    Route::get('applications/cancelled', ['as' => 'applications.cancelled.index', 'uses' => 'ApplicationStatusController@cancelled']);
+    Route::get('applications/search', ['as' => 'applications.search.index', 'uses' => 'ApplicationStatusController@advancedSearch']);
+    Route::post('application/search', ['as' => 'application.search', 'uses' => 'ApplicationStatusController@advancedSearch']);
 
     /* Routes for actions in applications module */
-    Route::get('applications/{course_application_id}/apply_offer',['as' => 'applications.apply.offer', 'uses' => 'ApplicationStatusController@apply_offer']);
-    Route::post('applications/{course_application_id}/update',['as' => 'applications.apply.update', 'uses' => 'ApplicationStatusController@update']);
-    Route::get('applications/{course_application_id}/cancel_application',['as' => 'applications.cancel.application', 'uses' => 'ApplicationStatusController@cancel_application']);
-    Route::post('applications/{notes_id}/cancel',['as' => 'application.cancel', 'uses' => 'ApplicationStatusController@cancel_qurantine']);
-    Route::get('applications/{course_application_id}/offer_letter_received',['as' => 'applications.offer.received', 'uses' => 'ApplicationStatusController@offer_letter_received']);
-    Route::post('applications/{course_application_id}/update_offer_update',['as' => 'applications.offer_letter.update', 'uses' => 'ApplicationStatusController@offer_received_update']);
-    Route::get('applications/{course_application_id}/apply_coe',['as' => 'applications.apply.coe', 'uses' => 'ApplicationStatusController@apply_coe']);
-    Route::post('applications/{course_application_id}/update_applied_coe',['as' => 'applications.update.applied.coe', 'uses' => 'ApplicationStatusController@update_applied_coe']);
+    Route::get('applications/{course_application_id}/apply_offer', ['as' => 'applications.apply.offer', 'uses' => 'ApplicationStatusController@apply_offer']);
+    Route::post('applications/{course_application_id}/update', ['as' => 'applications.apply.update', 'uses' => 'ApplicationStatusController@update']);
+    Route::get('applications/{course_application_id}/cancel_application', ['as' => 'applications.cancel.application', 'uses' => 'ApplicationStatusController@cancel_application']);
+    Route::post('applications/{notes_id}/cancel', ['as' => 'application.cancel', 'uses' => 'ApplicationStatusController@cancel_qurantine']);
+    Route::get('applications/{course_application_id}/offer_letter_received', ['as' => 'applications.offer.received', 'uses' => 'ApplicationStatusController@offer_letter_received']);
+    Route::post('applications/{course_application_id}/update_offer_update', ['as' => 'applications.offer_letter.update', 'uses' => 'ApplicationStatusController@offer_received_update']);
+    Route::get('applications/{course_application_id}/apply_coe', ['as' => 'applications.apply.coe', 'uses' => 'ApplicationStatusController@apply_coe']);
+    Route::post('applications/{course_application_id}/update_applied_coe', ['as' => 'applications.update.applied.coe', 'uses' => 'ApplicationStatusController@update_applied_coe']);
     //Route::get('application/enquiry/data', 'ApplicationStatusController@getData');
     //Route::post('applications/{course_application_id}/status',['as' => 'applications.status', 'uses' => 'ApplicationsStatusController@status']);
 
-    
-    Route::get('applications/{course_application_id}/COE_issued',['as' => 'applications.action.coe.issued', 'uses' => 'ApplicationStatusController@action_coe_issued']);
-    Route::post('applications/{course_application_id}/update_COE_issued',['as' => 'applications.action.update.coe.issued', 'uses' => 'ApplicationStatusController@update_coe_issued']);
+
+    Route::get('applications/{course_application_id}/COE_issued', ['as' => 'applications.action.coe.issued', 'uses' => 'ApplicationStatusController@action_coe_issued']);
+    Route::post('applications/{course_application_id}/update_COE_issued', ['as' => 'applications.action.update.coe.issued', 'uses' => 'ApplicationStatusController@update_coe_issued']);
     //Route::get('applications/{course_application_id}/coe_processing',['as' => 'applications.coe.processing', 'uses' => 'ApplicationsStatusController@coe_processing']);
     //Route::put('applications/{course_application_id}', ['as' => 'applications.update', 'uses' => 'ApplicationsStatusController@update']);
     //Route::put('applications/{course_application_id}/update', ['as'=>'apply_offer.update', 'uses'=>'ApplicationsStatusController@update']);
-   // Route::resource('apply_offer', 'ApplyOfferController',['only'=>['edit','update']]);
+    // Route::resource('apply_offer', 'ApplyOfferController',['only'=>['edit','update']]);
 
-     /*Routes for Invoice Reports All goes to InvoiceReportController*/
-    Route::get('client_invoice_report/invoice_pending', ['as'=>'client.invoice.pending', 'uses'=>'InvoiceReportController@clientInvoicePending']);
-    Route::get('client_invoice_report/invoice_paid', ['as'=>'client.invoice.paid', 'uses'=>'InvoiceReportController@clientInvoicePaid']);
-    Route::get('client_invoice_report/invoice_future', ['as'=>'client.invoice.future', 'uses'=>'InvoiceReportController@clientInvoicefuture']);
-    Route::get('client_invoice_report/search', ['as'=>'client.invoice.search', 'uses'=>'InvoiceReportController@clientInvoiceSearch']);
-    Route::post('client_invoice_report/search', ['as'=>'client.invoice', 'uses'=>'InvoiceReportController@clientInvoiceSearch']);
+    /*Routes for Invoice Reports All goes to InvoiceReportController*/
+    Route::get('client_invoice_report/invoice_pending', ['as' => 'client.invoice.pending', 'uses' => 'InvoiceReportController@clientInvoicePending']);
+    Route::get('client_invoice_report/invoice_paid', ['as' => 'client.invoice.paid', 'uses' => 'InvoiceReportController@clientInvoicePaid']);
+    Route::get('client_invoice_report/invoice_future', ['as' => 'client.invoice.future', 'uses' => 'InvoiceReportController@clientInvoicefuture']);
+    Route::get('client_invoice_report/search', ['as' => 'client.invoice.search', 'uses' => 'InvoiceReportController@clientInvoiceSearch']);
+    Route::post('client_invoice_report/search', ['as' => 'client.invoice', 'uses' => 'InvoiceReportController@clientInvoiceSearch']);
 
-    Route::get('college_invoice_report/invoice_pending', ['as'=>'college.invoice.pending', 'uses'=>'InvoiceReportController@collegeInvoicePending']);
-    Route::get('college_invoice_report/invoice_paid', ['as'=>'college.invoice.paid', 'uses'=>'InvoiceReportController@collegeInvoicePaid']);
-    Route::get('college_invoice_report/invoice_future', ['as'=>'college.invoice.future', 'uses'=>'InvoiceReportController@collegeInvoicefuture']);
-    Route::get('college_invoice_report/search', ['as'=>'college.invoice.search', 'uses'=>'InvoiceReportController@collegeInvoiceSearch']);
-    Route::post('college_invoice_report/search', ['as'=>'college.invoice', 'uses'=>'InvoiceReportController@collegeInvoiceSearch']);
+    Route::get('college_invoice_report/invoice_pending', ['as' => 'college.invoice.pending', 'uses' => 'InvoiceReportController@collegeInvoicePending']);
+    Route::get('college_invoice_report/invoice_paid', ['as' => 'college.invoice.paid', 'uses' => 'InvoiceReportController@collegeInvoicePaid']);
+    Route::get('college_invoice_report/invoice_future', ['as' => 'college.invoice.future', 'uses' => 'InvoiceReportController@collegeInvoicefuture']);
+    Route::get('college_invoice_report/search', ['as' => 'college.invoice.search', 'uses' => 'InvoiceReportController@collegeInvoiceSearch']);
+    Route::post('college_invoice_report/search', ['as' => 'college.invoice', 'uses' => 'InvoiceReportController@collegeInvoiceSearch']);
 
-    Route::get('client/payments', ['as'=>'accounts.client.payments', 'uses'=>'InvoiceReportController@clientPayments']);
-    Route::get('institutes/payments', ['as'=>'accounts.institutes.payments', 'uses'=>'InvoiceReportController@collegePayments']);
-    Route::get('subagent/payments', ['as'=>'accounts.subagent.payments', 'uses'=>'InvoiceReportController@subagentsPayments']);
+
+    Route::get('client/payments', ['as' => 'accounts.client.payments', 'uses' => 'InvoiceReportController@clientPayments']);
+    Route::get('institutes/payments', ['as' => 'accounts.institutes.payments', 'uses' => 'InvoiceReportController@collegePayments']);
+    Route::get('subagent/payments', ['as' => 'accounts.subagent.payments', 'uses' => 'InvoiceReportController@subagentsPayments']);
+
+    Route::get('college_invoice_report/group_invoice', ['as' => 'college.invoice.groupInvoice', 'uses' => 'InvoiceReportController@groupInvoice']);
 
 });

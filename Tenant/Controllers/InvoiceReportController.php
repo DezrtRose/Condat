@@ -95,6 +95,14 @@ class InvoiceReportController extends BaseController
         return view("Tenant::InvoiceReport/CollegeInvoice/invoice_future", $data);
     }
 
+    public function groupInvoice()
+    {
+        $data['invoice_reports'] = $this->college_invoice->getAll();
+        $data['date'] = Carbon::now();
+
+        return view("Tenant::InvoiceReport/CollegeInvoice/group_invoice", $data);
+    }
+
     public function collegeInvoiceSearch()
     {
         $data['status'] = [0 => 'All',
