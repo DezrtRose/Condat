@@ -339,5 +339,8 @@ Route::group(array('prefix' => 'tenant', 'module' => 'Tenant', 'middleware' => '
     Route::get('college_invoice_report/search', ['as'=>'college.invoice.search', 'uses'=>'InvoiceReportController@collegeInvoiceSearch']);
     Route::post('college_invoice_report/search', ['as'=>'college.invoice', 'uses'=>'InvoiceReportController@collegeInvoiceSearch']);
 
-    //end anish routes
+    Route::get('client/payments', ['as'=>'accounts.client.payments', 'uses'=>'InvoiceReportController@clientPayments']);
+    Route::get('institutes/payments', ['as'=>'accounts.institutes.payments', 'uses'=>'InvoiceReportController@collegePayments']);
+    Route::get('subagent/payments', ['as'=>'accounts.subagent.payments', 'uses'=>'InvoiceReportController@subagentsPayments']);
+
 });

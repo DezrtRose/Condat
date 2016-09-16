@@ -1,10 +1,13 @@
 <?php namespace App\Modules\Tenant\Controllers;
 
 use App\Http\Requests;
+use App\Modules\Tenant\Models\Application\StudentApplicationPayment;
 use App\Modules\Tenant\Models\Institute\Institute;
 use App\Modules\Tenant\Models\Invoice\CollegeInvoice;
 use App\Modules\Tenant\Models\Invoice\Invoice;
 use App\Modules\Tenant\Models\Invoice\StudentInvoice;
+use App\Modules\Tenant\Models\Payment\CollegePayment;
+use App\Modules\Tenant\Models\Payment\SubAgentApplicationPayment;
 use App\Modules\Tenant\Models\Report\Report;
 use Flash;
 use DB;
@@ -65,7 +68,7 @@ class InvoiceReportController extends BaseController
 
         if ($this->request->isMethod('post')) {
             $data['invoice_reports'] = $this->student_invoice->getFilterResults($this->request->all());
-            $data['search_attributes'] = $this-> request->all();
+            $data['search_attributes'] = $this->request->all();
             Flash::success(count($data['invoice_reports']) . ' record(s) found.');
         }
         return view('Tenant::InvoiceReport/ClientInvoice/search', $data);
@@ -107,6 +110,32 @@ class InvoiceReportController extends BaseController
             Flash::success(count($data['applications']) . ' records found.');
         }
         return view('Tenant::InvoiceReport/CollegeInvoice/search', $data);
+    }
+
+    public function clientPayments()
+    {
+        $data['payments'] = StudentApplicationPayment::leftJoin('client_payments', 'client_payments.client_payment_id', '=', 'student_application_payments.client_payment_id')
+            ->leftJoin('payment_invoice_breakdowns', 'client_payments.client_payment_id', '=', 'payment_invoice_breakdowns.payment_id')
+            ->select(['student_application_payments.student_payments_id', 'client_payments.*', 'payment_invoice_breakdowns.invoice_id', 'course_application_id'])
+            ->get();
+        return view("Tenant::InvoiceReport/Payment/clients", $data);
+    }
+
+    public function collegePayments()
+    {
+        $data['payments'] = CollegePayment::leftJoin('college_invoice_payments', 'college_payments.college_payment_id', '=', 'college_invoice_payments.ci_payment_id')
+            ->select(['college_payments.*', 'college_invoice_payments.college_invoice_id'])
+            ->get();
+        return view("Tenant::InvoiceReport/Payment/institutes", $data);
+    }
+
+    public function subagentsPayments()
+    {
+        $data['payments'] = SubAgentApplicationPayment::leftJoin('client_payments', 'client_payments.client_payment_id', '=', 'subagent_application_payments.client_payment_id')
+            ->leftJoin('payment_invoice_breakdowns', 'client_payments.client_payment_id', '=', 'payment_invoice_breakdowns.payment_id')
+            ->select(['subagent_application_payments.subagent_payments_id', 'subagent_application_payments.course_application_id', 'payment_invoice_breakdowns.invoice_id', 'client_payments.*'])
+            ->get();
+        return view("Tenant::InvoiceReport/Payment/subagents", $data);
     }
 
 
