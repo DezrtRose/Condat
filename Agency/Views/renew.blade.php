@@ -18,6 +18,12 @@
             <div class="box-body">
                 <div class="col-md-6">
                     <div class="form-group">
+                        {!!Form::label('amount', 'Total Amount', array('class' => 'col-sm-4 control-label')) !!}
+                        <div class="col-sm-8">
+                            $<span class="subscription-amount">0</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
                         {!!Form::label('renewal_date', 'Renewal Date', array('class' => 'col-sm-4 control-label')) !!}
                         <div class="col-sm-8">
                             {{ format_date(get_today_date()) }}
@@ -30,7 +36,7 @@
                             'form-control'))!!}
                         </div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group @if($errors->has('payment_date')) {{'has-error'}} @endif">
                         {!!Form::label('payment_date', 'Payment Date', array('class' => 'col-sm-4 control-label')) !!}
                         <div class="col-sm-8">
                             <div class="input-group">
@@ -39,6 +45,10 @@
                                 </div>
                                 {!!Form::text('payment_date', null, array('class' =>
                                 'form-control datemask', 'data-inputmask' => "'alias': 'dd/mm/yyyy'", 'data-mask'=> ''))!!}
+                                @if($errors->has('payment_date'))
+                                    {!! $errors->first('payment_date', '<label class="control-label"
+                                                                              for="inputError">:message</label>') !!}
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -65,3 +75,20 @@
         </div>
     </div>
 @stop
+<script>
+    window.onload = function() {
+        var CSRF_TOKEN = "<?php echo csrf_token() ?>";
+        $('#subscription_years, #subscription_type').on('change', function (e) {
+            e.preventDefault();
+            var subscription_years = $('#subscription_years').val();
+            var subscription_type = $('#subscription_type').val();
+            $.post("<?php echo url('agency/get_subscription_amount') ?>", {'subscription_years': subscription_years, 'subscription_type': subscription_type, _token: CSRF_TOKEN})
+            .done(function(resp) {
+                if(resp != 'false') {
+                    $('.subscription-amount').html(resp);
+                }
+            })
+        });
+        $('#subscription_years').trigger('change');
+    }
+</script>

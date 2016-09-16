@@ -3,6 +3,7 @@
 use App\Modules\Agency\Models\AgencySubscription;
 use Illuminate\Database\Eloquent\Model;
 use DB;
+use Carbon\Carbon;
 
 class Subscription extends Model
 {
@@ -40,16 +41,22 @@ class Subscription extends Model
             $subscription_id = $request['subscription_type'];
 
             $previous_sub = AgencySubscription::where('agency_id', $agency_id)->orderBy('agency_subscription_id', 'desc')->first();
+            $expiry_date = get_expiry_date(null, $request['subscription_years']);
             if(!empty($previous_sub)) {
                 $previous_sub->is_current = 0;
                 $previous_sub->save();
+                $old_end_date = new Carbon($previous_sub->end_date);
+                $today = new Carbon();
+                $remaining_months = $old_end_date->diffInMonths($today);
+                $expiry_date = get_expiry_date(null, $request['subscription_years']);
+                $expiry_date = $expiry_date->addMonths($remaining_months);
             }
 
             $agency_subs = AgencySubscription::create([
                 'agency_id' => $agency_id,
                 'is_current' => 1,
                 'start_date' => get_today_date(),
-                'end_date' => get_expiry_date(null, $request['subscription_years']),
+                'end_date' => $expiry_date,
                 'subscription_status_id' => 1, // 1 = trail, 2 = paid
                 'subscription_id' => $subscription_id,
             ]);
