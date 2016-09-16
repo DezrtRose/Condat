@@ -46,7 +46,7 @@ class Agency extends Model
                 'suburb' => isset($request['suburb']) ? $request['suburb'] : '',
                 'state' => isset($request['state']) ? $request['state'] : '',
                 'postcode' => isset($request['postcode']) ? $request['postcode'] : '',
-                'country_id' => isset($request['country']) ? $request['country'] : ''
+                'country_id' => isset($request['country_id']) ? $request['country_id'] : ''
             ]);
 
             $agency = Agency::create([
@@ -60,7 +60,7 @@ class Agency extends Model
 
             Company::create([
                 'name' => $request['name'],
-                'phone_id' => $request['phone'],
+                'phone_id' => $request['phone_id'],
                 'abn' => $request['abn'],
                 'acn' => isset($request['acn']) ? $request['acn'] : '',
                 'website' => isset($request['website']) ? $request['website'] : '',
@@ -146,7 +146,7 @@ EOD;
 
             $company = Company::where('agencies_agent_id', $agency_id)->first();
             $company->name = $request['name'];
-            $company->phone_id = $request['phone'];
+            $company->phone_id = $request['phone_id'];
             $company->abn = $request['abn'];
             $company->acn = $request['acn'];
             $company->website = $request['website'];
@@ -161,7 +161,7 @@ EOD;
             $address->suburb = $request['suburb'];
             $address->state = $request['state'];
             $address->postcode = $request['postcode'];
-            $address->country_id = $request['country'];
+            $address->country_id = $request['country_id'];
             $address->save();
 
             DB::commit();
