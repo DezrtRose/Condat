@@ -50,7 +50,7 @@ class FrontendController extends BaseController {
 		'description' => 'min:2',
 		'name' => 'required|min:2|max:145',
 		'abn' => 'required|min:2|max:145',
-		'phone' => 'required|min:2|max:145',
+		'phone_id' => 'required|min:2|max:145',
 		'email_id' => 'required|email|min:5|max:145|unique:companies',
 		'g-recaptcha-response' => 'required|recaptcha',
 		];
